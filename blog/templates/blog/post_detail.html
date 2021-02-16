@@ -1,0 +1,60 @@
+{% extends 'blog/base.html' %}
+
+    {% block content %}
+        <div class="post" xmlns="http://www.w3.org/1999/html">
+            <h1>
+                {{post.title}}
+            </h1>
+
+            {% if post.date %}
+                <div class="date">
+                    Опубликован:{{ post.date }}
+                </div>
+            {% endif %}
+
+            {% if user == post.author %}
+                <a class="btn btn-default" href="{% url 'post_edit' post_pk=post.pk %}">
+                    <span class="glyphicon glyphicon-pencil" title="изменить"></span> </a>
+                <a class="btn btn-default" href="{% url 'post_delete' post_pk=post.pk %}">
+                    <span class="glyphicon glyphicon-trash" title="удалить"></span> </a>
+            {% endif %}
+
+            <p><h2>
+                {{post.text}}
+            </h2></p></br>
+
+            {% if user.is_authenticated %}
+                <a class="btn btn-default" href="{% url 'post_like' post_pk=post.pk %}">
+                    <span class="glyphicon glyphicon-thumbs-up"> {{ post.likes }}</span></a>
+                <a class="btn btn-default" href="{% url 'post_dislike' post_pk=post.pk %}">
+                    <span class="glyphicon glyphicon-thumbs-down"> {{ post.dislikes }}</span></a>
+            {% endif %}
+
+        </div>
+
+        Количество просмотров: {{ post.counter }}<br>
+        Всего комментариев: {{ comments.counter }}<br><br>
+
+        {% if user.is_authenticated %}
+            <a href="{% url 'post_comment' post_pk=post.pk %}"> Добавить комментарий</a>
+            <br><br>
+            Комментарии:<br><br>
+            <div class="post" xmlns="http://www.w3.org/1999/html">
+            {% for com in comments %}
+                {{ com.author }}<br>
+                <div class="date">
+                    Опубликован: {{ com.date }}<br>
+                </div>
+                {{ com.text }}<br>
+                {% if user == com.author %}
+                    <a href="{% url 'comment_delete' post_pk=post.pk comment_pk=com.pk %}">Удалить комментарий</a>
+                    <a href="{% url 'comment_edit' post_pk=post.pk comment_pk=com.pk %}">Редактировать комментарий</a><br><br>
+                {% endif %}
+                <br>
+            {% endfor %}
+            </div>
+        {% endif %}
+
+
+
+    {% endblock %}

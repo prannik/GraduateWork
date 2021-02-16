@@ -1,0 +1,50 @@
+{% load static %}
+
+<html lang="en">
+    <head>
+        <title>Blog</title>
+        <link rel="icon" href="data:;base64,=">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+
+    </head>
+    <body>
+
+        <div class="page-header">
+            <h1>
+                {% if user.is_authenticated %}
+                    <h1><a href="{% url 'new' %}" class="top-menu">
+                        <span class="glyphicon glyphicon-plus"></span></a>
+                        <a href="{% url 'logout' %}" class="top-menu">
+                            <span class="glyphicon glyphicon-log-out"></span></a>
+                    </h1>
+
+                {% else %}
+                    <a href="{% url 'login' %}" class="top-menu"><span class="glyphicon glyphicon-log-in"></span></a>
+                {% endif %}
+
+                <h1>
+                    {% if user.is_authenticated %}
+                        <span class="glyphicon glyphicon-user" style="height:15px;width:15px
+                            position: fixed;color: black;
+                            right: 0; botton: 0;"
+                            title="{{ user }}">
+                        </span>
+                    {% endif %}
+                    <a href="{% url 'post_list' %}">TMS Django blog</a>
+                </h1>
+
+            </h1>
+        </div>
+
+        <div class="content container">
+            <div class="row">
+                <div class="col-md-8">
+                    {% block content %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
