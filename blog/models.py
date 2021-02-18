@@ -10,6 +10,7 @@ class Post(models.Model):
     counter = models.IntegerField(default=0)
     likes = models.IntegerField(default=0)
     dislikes = models.IntegerField(default=0)
+    image = models.ImageField(upload_to='images/', null=True, blank=True)
 
     def __str__(self):
         return f'{self.title}'

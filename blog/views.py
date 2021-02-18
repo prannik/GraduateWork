@@ -1,5 +1,5 @@
 
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, HttpResponseRedirect
 from django.utils import timezone
 from .models import Post, Comment
 from .forms import PostForm, CommentForm
@@ -41,6 +41,7 @@ def post_edit(request, post_pk):
             post.author = request.user
             post.save()
             return redirect('post_detail', post_pk=post.pk)
+
     else:
         form = PostForm(instance=post)
         return render(request, 'blog/post_edit.html', {'form': form})
@@ -96,7 +97,7 @@ def comment_edit(request, post_pk, comment_pk):
         form = CommentForm(request.POST, instance=comment)
         if form.is_valid():
             comment = form.save(commit=False)
-            comment.author = request.user.id
+            comment.author = request.user
             comment.save()
             return redirect('post_detail', post_pk=post.pk)
     else:

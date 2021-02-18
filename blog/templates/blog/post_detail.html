@@ -21,7 +21,13 @@
 
             <p><h2>
                 {{post.text}}
-            </h2></p></br>
+            </h2></p>
+
+            {% if post.image %}
+                <img src= {{ post.image.url }}  alt="{{ post.title }}" height="220" width="260"><br>
+            {% endif %}
+
+            </br>
 
             {% if user.is_authenticated %}
                 <a class="btn btn-default" href="{% url 'post_like' post_pk=post.pk %}">
