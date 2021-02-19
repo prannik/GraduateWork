@@ -1,17 +1,18 @@
 from django.shortcuts import render, redirect
 from .forms import UserRegistrationForm
 from django.conf import settings
-from g_recaptcha.validate_recaptcha import validate_captcha
+from .decorators import check_recaptcha
 
-@validate_captcha
+@check_recaptcha
 def registration(request):
     if request.method == 'POST':
         user_form = UserRegistrationForm(request.POST)
         if user_form.is_valid():
             new_user = user_form.save(commit=False)
             new_user.set_password(user_form.cleaned_data['password'])
-            new_user.save()
-            return redirect('logout')
+            if request.recaptcha_is_valid:
+                new_user.save()
+                return redirect('logout')
 
     else:
         user_form = UserRegistrationForm()
