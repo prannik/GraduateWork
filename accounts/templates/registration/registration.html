@@ -8,6 +8,7 @@
         <form method="post">
             {% csrf_token %}
             {{ user_form.as_p }}
+            <div class="g-recaptcha" data-sitekey="{{ GOOGLE_RECAPTCHA_SITE_KEY }}"></div>
             <button type="submit">Отправить</button>
         </form>
 {% endblock %}

@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 #SECRET_KEY = '(k-cyql8w(!l4%%ro+pqh3bl70!-q@idgn@&aq0^s6iv#a1i8='
 
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'k-cyql8w(!l4%%ro+pqh3bl70!-q@idgn@&aq0^s6iv#a1i8=')
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '(k-cyql8w(!l4%%ro+pqh3bl70!-q@idgn@&aq0^s6iv#a1i8=')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = True
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
 
     'accounts',
     'crispy_forms',
+    'g_recaptcha',
 
 
     'store',
@@ -134,8 +135,10 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')# Heroku: Update database configuration from $DATABASE_URL.
-
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
+
+GOOGLE_RECAPTCHA_SITE_KEY = '6LdWMF8aAAAAAITgliyXnbx3wbcSDhTJwo3yE92L'
+GOOGLE_RECAPTCHA_SECRET_KEY = '6LdWMF8aAAAAAAueP2mV1HrT3VInsLkYjaBqz_Qr'

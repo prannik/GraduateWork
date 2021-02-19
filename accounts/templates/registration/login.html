@@ -10,6 +10,7 @@
                 {% csrf_token %}
                 <input type="hidden" name="next" value="{{ next }}">
                 {{ form|crispy }}
+                <div class="g-recaptcha" data-sitekey="{{ GOOGLE_RECAPTCHA_SITE_KEY }}"></div>
                 <button type="submit" class="btn btn-primary btn-block">Войти</button>
             </form>
 
