@@ -16,10 +16,3 @@ class UserRegistrationForm(forms.ModelForm):
         if cd['password'] != cd['password2']:
             raise forms.ValidationError('Пароли не совпадают')
         return cd['password2']
-
-    def form_valid(self, form):
-        # проверка валидности reCAPTCHA
-        if self.request.recaptcha_is_valid:
-            form.save()
-            return self.get_context_data()
-        return messages.error(request, 'Invalid reCAPTCHA. Please try again.')
