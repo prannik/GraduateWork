@@ -19,7 +19,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'k-cyql8w(!l4%%ro+pqh3bl70!-q@i
 DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
 
 
-ALLOWED_HOSTS = ['127.0.0.1', ]
+ALLOWED_HOSTS = ['127.0.0.1', 'mysterious-cliffs-39785.herokuapp.com']
 
 
 # Application definition
