@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils import timezone
 
 
 class Post(models.Model):
@@ -11,6 +10,7 @@ class Post(models.Model):
     likes = models.IntegerField(default=0)
     dislikes = models.IntegerField(default=0)
     image = models.ImageField(upload_to='images/', null=True, blank=True)
+    tag = models.ManyToManyField('Tag', related_name='POSTS')
 
     def __str__(self):
         return f'{self.title}'
@@ -23,3 +23,22 @@ class Comment(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     counter = models.IntegerField(default=0)
 
+class Tag(models.Model):
+    text = models.CharField(max_length=64)
+
+    def __str__(self):
+        return self.text
+
+
+class Like(models.Model):
+    LIKE_OR_DISLAKE_CHOICES = (
+        ("LIKE", "like"),
+        ("DISLIKE", "dislike"),
+        (None, "None")
+    )
+
+    user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    for_post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    like_or_dislike = models.CharField(max_length=7,
+                                       choices=LIKE_OR_DISLAKE_CHOICES,
+                                       default=None)

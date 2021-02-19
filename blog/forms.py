@@ -1,8 +1,7 @@
 from django import forms
-from .models import Post, Comment
+from .models import Post, Comment, Tag
 
 class PostForm(forms.ModelForm):
-
     class Meta:
         model = Post
         fields = [
@@ -15,6 +14,13 @@ class PostForm(forms.ModelForm):
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
+        fields = [
+            'text'
+        ]
+
+class TagForm(forms.ModelForm):
+    class Meta:
+        model = Tag
         fields = [
             'text'
         ]

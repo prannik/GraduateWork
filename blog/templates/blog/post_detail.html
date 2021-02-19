@@ -26,13 +26,21 @@
             {% if post.image %}
                 <img src= {{ post.image.url }}  alt="{{ post.title }}" height="220" width="260"><br>
             {% endif %}
+            <div> Tags:
+                {% for tag in post.tag.all %}
+                <a href="{% url 'tag_post' tag_pk=tag.pk %}">#{{tag.text}}</a>
+                {% endfor%}
+                {% if user == post.author %}
+                    <a href="{% url 'add_tag' post_pk=post.pk %}"> --- Добавить #</a>
+                {% endif%}
+            </div>
 
             </br>
 
             {% if user.is_authenticated %}
-                <a class="btn btn-default" href="{% url 'post_like' post_pk=post.pk %}">
+                <a class="btn btn-default" href="{% url 'like_or_dislike' post_pk=post.pk is_like='like' %}">
                     <span class="glyphicon glyphicon-thumbs-up"> {{ post.likes }}</span></a>
-                <a class="btn btn-default" href="{% url 'post_dislike' post_pk=post.pk %}">
+                <a class="btn btn-default" href="{% url 'like_or_dislike' post_pk=post.pk is_like='dislike' %}">
                     <span class="glyphicon glyphicon-thumbs-down"> {{ post.dislikes }}</span></a>
             {% endif %}
 

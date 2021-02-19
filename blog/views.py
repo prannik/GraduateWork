@@ -1,8 +1,9 @@
 
-from django.shortcuts import render, get_object_or_404, redirect, HttpResponseRedirect
+from django.http import Http404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
-from .models import Post, Comment
-from .forms import PostForm, CommentForm
+from .models import Post, Comment, Tag, Like
+from .forms import PostForm, CommentForm, TagForm
 
 
 def post_list(request):
@@ -16,8 +17,9 @@ def post_detail(request, post_pk):
     post.save()
     comments = Comment.objects.filter(post=post_pk)
     comments.counter = len(comments)
-    return render(request, 'blog/post_detail.html', {'post': post, 'comments': comments})
-
+    return render(request, 'blog/post_detail.html', {'post': post,
+                                                     'comments': comments,
+                                                     'comments.counter': comments.counter})
 
 def post_new(request):
     if request.method == 'POST':
@@ -51,20 +53,6 @@ def post_delete(request, post_pk):
     post = get_object_or_404(Post, pk=post_pk)
     post.delete()
     return redirect('post_list')
-
-
-def post_like(request, post_pk):
-    post = get_object_or_404(Post, pk=post_pk)
-    post.likes += 1
-    post.save()
-    return redirect('post_detail', post_pk=post.pk)
-
-
-def post_dislike(request, post_pk):
-    post = get_object_or_404(Post, pk=post_pk)
-    post.dislikes += 1
-    post.save()
-    return redirect('post_detail', post_pk=post.pk)
 
 
 def post_comment(request, post_pk):
@@ -103,3 +91,64 @@ def comment_edit(request, post_pk, comment_pk):
     else:
         form = CommentForm(instance=comment)
         return render(request, 'blog/comment_edit.html', {'form': form})
+
+def tag_post(request, tag_pk):
+    tag = get_object_or_404(Tag, pk=tag_pk)
+    posts = tag.POSTS.all()
+    return render(request, 'blog/post_list.html', {'posts': posts})
+
+
+def add_tag(request, post_pk):
+    post = get_object_or_404(Post, pk=post_pk)
+    if request.method == "POST":
+        form = TagForm(request.POST)
+        if form.is_valid():
+            tag = form.save(commit=False)
+            tag.save()
+            post.tag.add(tag)
+            post.save()
+
+            return redirect('post_detail', post_pk=post.pk)
+    else:
+        form = TagForm()
+    return render(request, 'blog/tag_new.html', {'form': form})
+
+
+def like_or_dislike(request, post_pk, is_like):
+    try:
+        post = Post.objects.get(id=post_pk)
+    except:
+        raise Http404("Пост не найден!")
+    old_like = Like.objects.filter(user=request.user, for_post=post)
+    if old_like:
+        like = Like.objects.get(user=request.user, for_post=post)
+        if like.like_or_dislike == 'like' and is_like == 'like':
+            like.delete()
+            post.likes -= 1
+            post.save()
+        elif like.like_or_dislike == 'dislike' and is_like == 'dislike':
+            like.delete()
+            post.dislikes -= 1
+            post.save()
+        elif like.like_or_dislike == 'like' and is_like == 'dislike':
+            like.like_or_dislike = 'dislike'
+            like.save()
+            post.dislikes += 1
+            post.likes -= 1
+            post.save()
+        elif like.like_or_dislike == 'dislike' and is_like == 'like':
+            like.like_or_dislike = "like"
+            like.save()
+            post.dislikes -= 1
+            post.likes += 1
+            post.save()
+    else:
+        new_like = Like(user=request.user, for_post=post, like_or_dislike=is_like)
+        new_like.save()
+        if is_like == 'like':
+            post.likes += 1
+            post.save()
+        elif is_like == 'dislike':
+            post.dislikes += 1
+            post.save()
+    return redirect('post_detail', post_pk=post.pk)
