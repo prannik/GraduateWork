@@ -10,9 +10,8 @@ def registration(request):
         if user_form.is_valid():
             new_user = user_form.save(commit=False)
             new_user.set_password(user_form.cleaned_data['password'])
-            if request.recaptcha_is_valid:
-                new_user.save()
-                return redirect('logout')
+            new_user.save()
+            return redirect('logout')
 
     else:
         user_form = UserRegistrationForm()
