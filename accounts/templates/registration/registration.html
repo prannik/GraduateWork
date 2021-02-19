@@ -8,7 +8,18 @@
         <form method="post">
             {% csrf_token %}
             {{ user_form.as_p }}
-            <div class="g-recaptcha" data-sitekey="{{ GOOGLE_RECAPTCHA_SITE_KEY }}"></div>
+            <p>
+                    <script src="https://www.google.com/recaptcha/api.js"></script>
+                    <div class="form-group g-recaptcha" data-sitekey="{{ GOOGLE_RECAPTCHA_SITE_KEY }}">
+                    <div style="width: 304px; height: 78px;">
+                        <div>
+                            <iframe src="https://www.google.com/recaptcha/api2/anchor?ar=1&amp;k=6Le-Af8UAAAAAG34gi_y5ClRstfuAt7cStdJOWRN&amp;co=aHR0cDovL215cGluZWFwcGxlLnB5dGhvbmFueXdoZXJlLmNvbTo4MA..&amp;hl=ru&amp;v=pRiAUlKgZOMcFLsfzZTeGtOA&amp;size=normal&amp;cb=iayhzc124kzv" width="304" height="78" role="presentation" name="a-6e9nwgnzlz67" frameborder="0" scrolling="no" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox"></iframe>
+                        </div>
+                        <textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid rgb(193, 193, 193); margin: 10px 25px; padding: 0px; resize: none; display: none;"></textarea>
+                    </div><iframe style="display: none;"></iframe>
+                    </div>
+                </p>
+                <br>
             <button type="submit">Отправить</button>
         </form>
 {% endblock %}
