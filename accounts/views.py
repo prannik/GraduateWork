@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from .forms import UserRegistrationForm
 from django.conf import settings
 from g_recaptcha.validate_recaptcha import validate_captcha
-GOOGLE_RECAPTCHA_SITE_KEY: settings.GOOGLE_RECAPTCHA_SITE_KEY
 
 @validate_captcha
 def registration(request):
