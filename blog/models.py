@@ -10,7 +10,9 @@ class Post(models.Model):
     likes = models.IntegerField(default=0)
     dislikes = models.IntegerField(default=0)
     image = models.ImageField(upload_to='images/', null=True, blank=True)
-    tag = models.ManyToManyField('Tag', related_name='POSTS')
+    tag = models.ManyToManyField('Tag', related_name='POSTS', blank=True)
+    draft = models.BooleanField(default=False)
+    category = models.ForeignKey('Category', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return f'{self.title}'
@@ -42,3 +44,9 @@ class Like(models.Model):
     like_or_dislike = models.CharField(max_length=7,
                                        choices=LIKE_OR_DISLAKE_CHOICES,
                                        default=None)
+
+class Category(models.Model):
+    name = models.CharField(max_length=48)
+
+    def __str__(self):
+        return f'{self.name}'

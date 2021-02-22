@@ -1,12 +1,12 @@
 .page-header {
     background-color: #008000;
-    margin-top: 0;
-    padding: 20px 20px 20px 40px;
+    margin-top: 20;
+    padding: 36px 36px 36px 36px;
 }
 
 .page-header h1, .page-header h1 a, .page-header h1 a:visited, .page-header h1 a:active {
-    color: #ffffff;
-    font-size: 36pt;
+    color: black;
+    font-size: 28pt;
     text-decoration: none;
 }
 
@@ -19,7 +19,7 @@ h1, h2, h3, h4 {
 }
 
 .date {
-    color: #828282;
+    color: #483D8B;
 }
 
 .save {
@@ -31,14 +31,14 @@ h1, h2, h3, h4 {
 }
 
 .top-menu, .top-menu:hover, .top-menu:visited {
-    color: #ffffff;
+    color: black;
     float: right;
-    font-size: 26pt;
+    font-size: 24pt;
     margin-right: 20px;
 }
 
 .post {
-    margin-bottom: 70px;
+    margin-bottom: 50px;
 }
 
 .post h1 a, .post h1 a:visited {

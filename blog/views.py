@@ -2,14 +2,34 @@
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
-from .models import Post, Comment, Tag, Like
+from .models import Post, Comment, Tag, Like, Category
 from .forms import PostForm, CommentForm, TagForm
 
 
 def post_list(request):
-    posts = Post.objects.filter(date__lte=timezone.now()).order_by('date')
-    return render(request, 'blog/post_list.html', {'posts': posts})
+    category = Category.objects.all()
+    posts = Post.objects.filter(draft=False, date__lte=timezone.now()).order_by('date')
+    drafts_counter = len(Post.objects.filter(draft=True))
+    return render(request, 'blog/post_list.html', {'posts': posts,
+                                                   'drafts_counter': drafts_counter,
+                                                   'category': category})
 
+def cat_post_list(request, cat_pk):
+    category = get_object_or_404(Category, pk=cat_pk)
+    posts = Post.objects.filter(category=category,draft=False,  date__lte=timezone.now()).order_by('date')
+    return render(request, 'blog/category_post_list.html', {'posts': posts,
+                                                            'category': category})
+
+def draft_list(request):
+    drafts = Post.objects.filter(draft=True, author=request.user, date__lte=timezone.now()).order_by('date')
+    return render(request, 'blog/draft_list.html', {'posts': drafts})
+
+def published_draft(post_pk):
+    post = get_object_or_404(Post, pk=post_pk)
+    post.draft = False
+    post.date = timezone.now()
+    post.save()
+    return redirect('post_list')
 
 def post_detail(request, post_pk):
     post = get_object_or_404(Post, pk=post_pk)
@@ -98,7 +118,7 @@ def tag_post(request, tag_pk):
     return render(request, 'blog/post_list.html', {'posts': posts})
 
 
-def add_tag(request, post_pk):
+def tag_add(request, post_pk):
     post = get_object_or_404(Post, pk=post_pk)
     if request.method == "POST":
         form = TagForm(request.POST)
@@ -111,10 +131,16 @@ def add_tag(request, post_pk):
             return redirect('post_detail', post_pk=post.pk)
     else:
         form = TagForm()
-    return render(request, 'blog/tag_new.html', {'form': form})
+    return render(request, 'blog/tag_add.html', {'form': form})
 
+def tag_delete(request, post_pk, tag_pk):
+    post = get_object_or_404(Post, pk=post_pk)
+    tag = get_object_or_404(Tag, pk=tag_pk)
+    tag.delete()
+    post.save()
+    return redirect('post_detail', post_pk=post.pk)
 
-def like_or_dislike(request, post_pk, is_like):
+def like_or_dislike(request, post_pk, is_like, point):
     try:
         post = Post.objects.get(id=post_pk)
     except:
@@ -151,4 +177,9 @@ def like_or_dislike(request, post_pk, is_like):
         elif is_like == 'dislike':
             post.dislikes += 1
             post.save()
-    return redirect('post_detail', post_pk=post.pk)
+    if point == 'post_list':
+        return redirect('post_list')
+    elif point == 'post_detail':
+        return redirect('post_detail', post_pk=post.pk)
+
+

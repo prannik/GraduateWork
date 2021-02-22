@@ -8,6 +8,8 @@ class PostForm(forms.ModelForm):
             'title',
             'text',
             'image',
+            'draft',
+            'category'
         ]
 
 
@@ -24,3 +26,4 @@ class TagForm(forms.ModelForm):
         fields = [
             'text'
         ]
+

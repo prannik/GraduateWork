@@ -11,7 +11,7 @@ def registration(request):
             new_user = user_form.save(commit=False)
             new_user.set_password(user_form.cleaned_data['password'])
             new_user.save()
-            return redirect('logout')
+            return redirect('login')
 
     else:
         user_form = UserRegistrationForm()

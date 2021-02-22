@@ -1,0 +1,28 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+
+    <h1>
+        Посты {{category.name}}:
+    </h1>
+
+    {% for post in posts %}
+
+        <div class="post">
+            <h1><a href="{% url 'post_detail' post_pk=post.pk %}">{{ post.title }}</a></h1>
+
+            <div class="date">
+                Опубликовано: {{ post.date }}
+            </div>
+            <div>{{ post.text}}</div>
+
+            {% if user == post.author %}
+                <a class="btn btn-default" href="{% url 'post_edit' post_pk=post.pk %}">
+                    <span class="glyphicon glyphicon-pencil" title="изменить"></span></a>
+                <a class="btn btn-default" href="{% url 'post_delete' post_pk=post.pk %}">
+                    <span class="glyphicon glyphicon-trash" title="удалить"></span></a>
+            {% endif %}
+        </div>
+
+    {% endfor %}
+{% endblock %}
