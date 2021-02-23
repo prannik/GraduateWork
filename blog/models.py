@@ -50,3 +50,10 @@ class Category(models.Model):
 
     def __str__(self):
         return f'{self.name}'
+
+class Review(models.Model):
+    mark = models.IntegerField(default=5)
+    author = models.ForeignKey('auth.User', on_delete=models.CASCADE, blank=True, null=True)
+    text = models.TextField(max_length=300)
+    date = models.DateTimeField(auto_now_add=True)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, blank=True, null=True)

@@ -11,6 +11,8 @@
                 {% else %}
                     Создан: {{ post.date }}
                 {% endif %}
+                <br>
+                Средняя оценка: {{ review_mark }}
             </div>
             <h>
                 Категория: <a href="{% url 'cat_post_list'  cat_pk=post.category.pk %}">{{ post.category.name }}</a>

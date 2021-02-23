@@ -2,7 +2,7 @@
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
-from .models import Post, Comment, Tag, Like, Category
+from .models import Post, Comment, Tag, Like, Category, Review
 from .forms import PostForm, CommentForm, TagForm
 
 
@@ -37,9 +37,15 @@ def post_detail(request, post_pk):
     post.save()
     comments = Comment.objects.filter(post=post_pk)
     comments.counter = len(comments)
+    review = Review.objects.filter(post=post_pk)
+    sum_mark = 0
+    for i in review:
+        sum_mark += i.mark
+    review_mark = sum_mark/len(review)
     return render(request, 'blog/post_detail.html', {'post': post,
                                                      'comments': comments,
-                                                     'comments.counter': comments.counter})
+                                                     'comments.counter': comments.counter,
+                                                     'review_mark': review_mark})
 
 def post_new(request):
     if request.method == 'POST':
