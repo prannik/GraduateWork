@@ -1,22 +1,14 @@
 from django import forms
-from .models import Product, ProductComment
+from .models import Product
 
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = [
-            'title',
+            'name',
             'description',
             'image',
             'price',
             'category'
-        ]
-
-
-class ProductCommentForm(forms.ModelForm):
-    class Meta:
-        model = ProductComment
-        fields = [
-            'text'
         ]
 

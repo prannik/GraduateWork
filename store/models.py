@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Product(models.Model):
-    title = models.CharField(max_length=48)
+    name = models.CharField(max_length=48)
     description = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
     price = models.IntegerField(blank=True)
@@ -10,15 +10,7 @@ class Product(models.Model):
     category = models.ForeignKey('Category', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return f'{self.title}'
-
-
-class ProductComment(models.Model):
-    product = models.ForeignKey('Product', on_delete=models.CASCADE, blank=True, null=True)
-    author = models.ForeignKey('auth.User', on_delete=models.CASCADE, blank=True, null=True)
-    text = models.TextField(max_length=300)
-    date = models.DateTimeField(auto_now_add=True)
-    counter = models.IntegerField(default=0)
+        return f'{self.name}'
 
 
 class Category(models.Model):

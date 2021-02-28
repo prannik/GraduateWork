@@ -1,4 +1,3 @@
-
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
@@ -41,11 +40,11 @@ def post_detail(request, post_pk):
     sum_mark = 0
     for i in review:
         sum_mark += i.mark
-    review_mark = sum_mark/len(review)
+    post.rating = sum_mark/len(review)
+    post.save()
     return render(request, 'blog/post_detail.html', {'post': post,
                                                      'comments': comments,
-                                                     'comments.counter': comments.counter,
-                                                     'review_mark': review_mark})
+                                                     'comments.counter': comments.counter})
 
 def post_new(request):
     if request.method == 'POST':
@@ -58,7 +57,6 @@ def post_new(request):
     else:
         form = PostForm()
         return render(request, 'blog/post_new.html', {'form': form})
-
 
 def post_edit(request, post_pk):
     post = get_object_or_404(Post, pk=post_pk)
@@ -74,12 +72,10 @@ def post_edit(request, post_pk):
         form = PostForm(instance=post)
         return render(request, 'blog/post_edit.html', {'form': form})
 
-
 def post_delete(request, post_pk):
     post = get_object_or_404(Post, pk=post_pk)
     post.delete()
     return redirect('post_list')
-
 
 def post_comment(request, post_pk):
     post = get_object_or_404(Post, pk=post_pk)
@@ -95,14 +91,12 @@ def post_comment(request, post_pk):
         comment_form = CommentForm()
         return render(request, 'blog/post_comment.html', {'comment_form': comment_form})
 
-
 def comment_delete(request, post_pk, comment_pk):
     post = get_object_or_404(Post, pk=post_pk)
     comment = get_object_or_404(Comment, pk=comment_pk)
     comment.delete()
     post.save()
     return redirect('post_detail', post_pk=post.pk)
-
 
 def comment_edit(request, post_pk, comment_pk):
     post = get_object_or_404(Post, pk=post_pk)
@@ -123,15 +117,18 @@ def tag_post(request, tag_pk):
     posts = tag.POSTS.all()
     return render(request, 'blog/post_list.html', {'posts': posts})
 
-
 def tag_add(request, post_pk):
     post = get_object_or_404(Post, pk=post_pk)
     if request.method == "POST":
         form = TagForm(request.POST)
         if form.is_valid():
             tag = form.save(commit=False)
-            tag.save()
-            post.tag.add(tag)
+            tags = Tag.objects.filter(text=tag)
+            if len(tags) == 0:
+                tag.save()
+                post.tag.add(tag)
+            else:
+                post.tag.add(tags[0])
             post.save()
 
             return redirect('post_detail', post_pk=post.pk)
@@ -187,5 +184,4 @@ def like_or_dislike(request, post_pk, is_like, point):
         return redirect('post_list')
     elif point == 'post_detail':
         return redirect('post_detail', post_pk=post.pk)
-
 

@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.db import models
 
 
@@ -13,6 +14,7 @@ class Post(models.Model):
     tag = models.ManyToManyField('Tag', related_name='POSTS', blank=True)
     draft = models.BooleanField(default=False)
     category = models.ForeignKey('Category', on_delete=models.CASCADE, null=True)
+    rating = models.DecimalField(default=Decimal('3.00'), max_digits=3, decimal_places=2)
 
     def __str__(self):
         return f'{self.title}'
