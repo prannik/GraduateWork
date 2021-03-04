@@ -1,14 +1,16 @@
 {% extends 'store/base.html' %}
 
 {% block content %}
+
     <h1>
         Список товаров:
     </h1>
 
     {% for product in products %}
-
         <div class="post">
-            <h1>{{ product.name }}</h1>
+            <h1>
+                <a href="{% url 'product_detail' product_pk=product.pk %}">{{ product.name }}</a>
+            </h1>
             <div class="date">
                 В наличии с: {{ product.date }}
             </div>
@@ -19,8 +21,8 @@
                 Цена: {{ product.price }}
             </div>
             <div>_____________</div>
-            <br>
         </div>
 
     {% endfor %}
+
 {% endblock %}

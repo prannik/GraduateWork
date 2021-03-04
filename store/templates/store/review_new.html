@@ -1,0 +1,63 @@
+{% extends 'store/base.html' %}
+
+    {% block content %}
+
+        <div class="post">
+                <h1>
+                    {{product.name}}
+                </h1>
+        </div>
+        <div class="date">
+            В наличии с: {{ product.date }}
+            {% if product.rating %}
+                Рейтинг: {{ product.rating }}
+            {% endif %}
+        </div>
+        <h>
+            Категория: <a >{{ product.category.name }}</a>
+        </h>
+        <br>
+        <p>
+            <h2>{{ product.description }}</h2>
+        </p>
+
+        {% if product.image %}
+            <img src= {{ product.image.url }}  alt="{{ product.name }}" height="220" width="260"><br>
+        {% endif %}
+        {% if user.is_authenticated %}
+            <a href="{% url 'product_review' product_pk=product.pk %}"> Написать отзыв </a>
+            <br><br>
+            {% if product.rating > 0 %}
+                Комментарии:<br>
+                <div class="post">
+                    {% for review in reviews %}
+                        {{ review.author }}<br>
+                        <div class="date">
+                            Опубликован: {{ review.date }}<br>
+                            Оценка: {{ review.mark }}
+                        </div>
+                        Отзыв: {{ review.text_1 }}<br>
+                        {% if review.text_2 %}
+                            Плюсы: {{ review.text_2 }}<br>
+                        {% elif review.text_3 %}
+                             Минусы: {{ review.text_3 }}<br>
+                        {% endif %}
+                        {% if user.is_authenticated %}
+                            <a class="btn btn-default" href="{% url 'review_like_or_dislike' post_pk=post.pk review_pk=review.pk is_like='like'%}">
+                                <span class="glyphicon glyphicon-thumbs-up"> {{ review.review_likes }}</span></a>
+                            <a class="btn btn-default" href="{% url 'review_like_or_dislike' post_pk=post.pk review_pk=review.pk is_like='dislike'%}">
+                                <span class="glyphicon glyphicon-thumbs-down"> {{ review.review_dislikes }}</span></a>
+                        {% endif %}
+                        {% if user == review.author %}
+                            <a class="btn btn-default" href="{% url 'review_edit' product_pk=product.pk review_pk=review.pk %}">
+                                <span class="glyphicon glyphicon-pencil" title="изменить"></span></a>
+                            <a class="btn btn-default" href="{% url 'review_delete' product_pk=product.pk review_pk=review.pk %}">
+                                <span class="glyphicon glyphicon-trash" title="удалить"></span></a>
+                        {% endif %}
+                        <br>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endif %}
+
+{% endblock %}

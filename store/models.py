@@ -1,42 +1,59 @@
 from django.db import models
+from decimal import Decimal
 
 
 class Product(models.Model):
     name = models.CharField(max_length=48)
-    description = models.TextField()
+    description = models.TextField(max_length=500)
     date = models.DateTimeField(auto_now_add=True)
     price = models.IntegerField(blank=True)
     image = models.ImageField(upload_to='images/', null=True, blank=True)
-    category = models.ForeignKey('Category', on_delete=models.CASCADE, null=True)
+    category = models.ForeignKey('ProductCategory', on_delete=models.CASCADE, null=True)
+    rating = models.DecimalField(default=Decimal('0.00'), max_digits=3, decimal_places=2, null=True, blank=True)
 
     def __str__(self):
         return f'{self.name}'
 
 
-class Category(models.Model):
+class ProductCategory(models.Model):
     name = models.CharField(max_length=48)
 
     def __str__(self):
         return f'{self.name}'
 
 
-# class Like(models.Model):
-#     LIKE_OR_DISLAKE_CHOICES = (
-#         ("LIKE", "like"),
-#         ("DISLIKE", "dislike"),
-#         (None, "None")
-#     )
-#
-#     user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
-#     for_product = models.ForeignKey(Product, on_delete=models.CASCADE)
-#     like_or_dislike = models.CharField(max_length=7,
-#                                        choices=LIKE_OR_DISLAKE_CHOICES,
-#                                        default=None)
-
-
 class ProductReview(models.Model):
-    mark = models.IntegerField(default=5)
-    author = models.ForeignKey('auth.User', on_delete=models.CASCADE, blank=True, null=True)
-    text = models.TextField(max_length=300)
+    MARK_CHOICES = (
+        ("1", 1),
+        ("2", 2),
+        ("3", 3),
+        ("4", 4),
+        ("5", 5),
+    )
+
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    author = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    text_1 = models.TextField(max_length=500, verbose_name='Отзыв')
+    text_2 = models.TextField(max_length=200, blank=True, null=True, verbose_name='Плюсы')
+    text_3 = models.TextField(max_length=200, blank=True, null=True,  verbose_name='Минусы')
     date = models.DateTimeField(auto_now_add=True)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True, null=True)
+    likes = models.IntegerField(default=0)
+    dislikes = models.IntegerField(default=0)
+    mark = models.CharField(max_length=4, choices=MARK_CHOICES)
+
+    def __str__(self):
+        return f'{self.author} - {self.product}'
+
+
+class ProductReviewLike(models.Model):
+    LIKE_OR_DISLAKE_CHOICES = (
+        ("LIKE", "like"),
+        ("DISLIKE", "dislike"),
+        (None, "None")
+    )
+
+    user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    for_review = models.ForeignKey(ProductReview, on_delete=models.CASCADE)
+    like_or_dislike = models.CharField(max_length=7,
+                                       choices=LIKE_OR_DISLAKE_CHOICES,
+                                       default=None)

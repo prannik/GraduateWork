@@ -1,7 +1,7 @@
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
-from .models import Post, Comment, Tag, Like, Category, Review
+from .models import Post, Comment, Tag, PostLike, CommentLike, Category
 from .forms import PostForm, CommentForm, TagForm
 
 
@@ -32,15 +32,8 @@ def published_draft(post_pk):
 
 def post_detail(request, post_pk):
     post = get_object_or_404(Post, pk=post_pk)
-    post.counter += 1
-    post.save()
     comments = Comment.objects.filter(post=post_pk)
     comments.counter = len(comments)
-    review = Review.objects.filter(post=post_pk)
-    sum_mark = 0
-    for i in review:
-        sum_mark += i.mark
-    post.rating = sum_mark/len(review)
     post.save()
     return render(request, 'blog/post_detail.html', {'post': post,
                                                      'comments': comments,
@@ -143,45 +136,84 @@ def tag_delete(request, post_pk, tag_pk):
     post.save()
     return redirect('post_detail', post_pk=post.pk)
 
-def like_or_dislike(request, post_pk, is_like, point):
-    try:
-        post = Post.objects.get(id=post_pk)
-    except:
-        raise Http404("Пост не найден!")
-    old_like = Like.objects.filter(user=request.user, for_post=post)
+
+def post_like_or_dislike(request, post_pk, is_like, point):
+    post = get_object_or_404(Post, pk=post_pk)
+    old_like = PostLike.objects.filter(user=request.user, for_post=post)
+
     if old_like:
-        like = Like.objects.get(user=request.user, for_post=post)
+        like = PostLike.objects.get(user=request.user, for_post=post)
         if like.like_or_dislike == 'like' and is_like == 'like':
             like.delete()
-            post.likes -= 1
+            post.post_likes -= 1
             post.save()
         elif like.like_or_dislike == 'dislike' and is_like == 'dislike':
             like.delete()
-            post.dislikes -= 1
+            post.post_dislikes -= 1
             post.save()
         elif like.like_or_dislike == 'like' and is_like == 'dislike':
             like.like_or_dislike = 'dislike'
             like.save()
-            post.dislikes += 1
-            post.likes -= 1
+            post.post_dislikes += 1
+            post.post_likes -= 1
             post.save()
         elif like.like_or_dislike == 'dislike' and is_like == 'like':
             like.like_or_dislike = "like"
             like.save()
-            post.dislikes -= 1
-            post.likes += 1
+            post.post_dislikes -= 1
+            post.post_likes += 1
             post.save()
     else:
-        new_like = Like(user=request.user, for_post=post, like_or_dislike=is_like)
+        new_like = PostLike(user=request.user, for_post=post, like_or_dislike=is_like)
         new_like.save()
         if is_like == 'like':
-            post.likes += 1
+            post.post_likes += 1
             post.save()
         elif is_like == 'dislike':
-            post.dislikes += 1
+            post.post_dislikes += 1
             post.save()
     if point == 'post_list':
         return redirect('post_list')
     elif point == 'post_detail':
         return redirect('post_detail', post_pk=post.pk)
+
+
+def comment_like_or_dislike(request, post_pk, comment_pk, is_like):
+    post = get_object_or_404(Post, pk=post_pk)
+    comment = get_object_or_404(Comment, pk=comment_pk)
+
+    old_like = CommentLike.objects.filter(user=request.user, for_com=comment)
+
+    if old_like:
+        like = CommentLike.objects.get(user=request.user, for_com=comment)
+        if like.like_or_dislike == 'like' and is_like == 'like':
+            like.delete()
+            comment.comment_likes -= 1
+            comment.save()
+        elif like.like_or_dislike == 'dislike' and is_like == 'dislike':
+            like.delete()
+            comment.comment_dislikes -= 1
+            comment.save()
+        elif like.like_or_dislike == 'like' and is_like == 'dislike':
+            like.like_or_dislike = 'dislike'
+            like.save()
+            comment.comment_dislikes += 1
+            comment.comment_likes -= 1
+            comment.save()
+        elif like.like_or_dislike == 'dislike' and is_like == 'like':
+            like.like_or_dislike = "like"
+            like.save()
+            comment.comment_dislikes -= 1
+            comment.comment_likes += 1
+            comment.save()
+    else:
+        new_like = CommentLike(user=request.user, for_com=comment, like_or_dislike=is_like)
+        new_like.save()
+        if is_like == 'like':
+            comment.comment_likes += 1
+            comment.save()
+        elif is_like == 'dislike':
+            comment.comment_dislikes += 1
+            comment.save()
+    return redirect('post_detail', post_pk=post.pk)
 

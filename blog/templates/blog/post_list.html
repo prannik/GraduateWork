@@ -27,7 +27,9 @@
     {% for post in posts %}
 
         <div class="post">
-            <h1><a href="{% url 'post_detail' post_pk=post.pk %}">{{ post.title }}</a></h1>
+            <h1>
+                <a href="{% url 'post_detail' post_pk=post.pk %}">{{ post.title }}</a>
+            </h1>
             {% if post.category %}
                 <h>
                     Категория: <a href="{% url 'cat_post_list'  cat_pk=post.category.pk %}">{{post.category.name}}</a>
@@ -41,10 +43,10 @@
             <div>{{ post.text}}</div>
             <br>
             {% if user.is_authenticated and post.draft == False %}
-                <a class="btn btn-default" href="{% url 'like_or_dislike' post_pk=post.pk is_like='like' point='post_list' %}">
-                    <span class="glyphicon glyphicon-thumbs-up"> {{ post.likes }}</span></a>
-                <a class="btn btn-default" href="{% url 'like_or_dislike' post_pk=post.pk is_like='dislike' point='post_list'%}">
-                    <span class="glyphicon glyphicon-thumbs-down"> {{ post.dislikes }}</span></a>
+                <a class="btn btn-default" href="{% url 'post_like_or_dislike' post_pk=post.pk is_like='like' point='post_list' %}">
+                    <span class="glyphicon glyphicon-thumbs-up"> {{ post.post_likes }}</span></a>
+                <a class="btn btn-default" href="{% url 'post_like_or_dislike' post_pk=post.pk is_like='dislike' point='post_list'%}">
+                    <span class="glyphicon glyphicon-thumbs-down"> {{ post.post_dislikes }}</span></a>
 
             {% endif %}
 

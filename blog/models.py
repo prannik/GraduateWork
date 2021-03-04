@@ -1,5 +1,5 @@
-from decimal import Decimal
 from django.db import models
+from django import forms
 
 
 class Post(models.Model):
@@ -8,24 +8,26 @@ class Post(models.Model):
     text = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
     counter = models.IntegerField(default=0)
-    likes = models.IntegerField(default=0)
-    dislikes = models.IntegerField(default=0)
+    post_likes = models.IntegerField(default=0)
+    post_dislikes = models.IntegerField(default=0)
     image = models.ImageField(upload_to='images/', null=True, blank=True)
     tag = models.ManyToManyField('Tag', related_name='POSTS', blank=True)
     draft = models.BooleanField(default=False)
     category = models.ForeignKey('Category', on_delete=models.CASCADE, null=True)
-    rating = models.DecimalField(default=Decimal('3.00'), max_digits=3, decimal_places=2)
 
     def __str__(self):
         return f'{self.title}'
-
 
 class Comment(models.Model):
     post = models.ForeignKey('Post', on_delete=models.CASCADE, blank=True, null=True)
     author = models.ForeignKey('auth.User', on_delete=models.CASCADE, blank=True, null=True)
     text = models.TextField(max_length=300)
     date = models.DateTimeField(auto_now_add=True)
-    counter = models.IntegerField(default=0)
+    comment_likes = models.IntegerField(default=0)
+    comment_dislikes = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f'{self.author} - {self.post}'
 
 class Tag(models.Model):
     text = models.CharField(max_length=64)
@@ -34,7 +36,7 @@ class Tag(models.Model):
         return self.text
 
 
-class Like(models.Model):
+class PostLike(models.Model):
     LIKE_OR_DISLAKE_CHOICES = (
         ("LIKE", "like"),
         ("DISLIKE", "dislike"),
@@ -47,15 +49,23 @@ class Like(models.Model):
                                        choices=LIKE_OR_DISLAKE_CHOICES,
                                        default=None)
 
+class CommentLike(models.Model):
+    LIKE_OR_DISLAKE_CHOICES = (
+        ("LIKE", "like"),
+        ("DISLIKE", "dislike"),
+        (None, "None")
+    )
+
+    user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    for_com = models.ForeignKey(Comment, on_delete=models.CASCADE)
+    like_or_dislike = models.CharField(max_length=7,
+                                       choices=LIKE_OR_DISLAKE_CHOICES,
+                                       default=None)
+
+
 class Category(models.Model):
     name = models.CharField(max_length=48)
 
     def __str__(self):
         return f'{self.name}'
 
-class Review(models.Model):
-    mark = models.IntegerField(default=5)
-    author = models.ForeignKey('auth.User', on_delete=models.CASCADE, blank=True, null=True)
-    text = models.TextField(max_length=300)
-    date = models.DateTimeField(auto_now_add=True)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, blank=True, null=True)
