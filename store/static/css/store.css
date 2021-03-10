@@ -1,12 +1,12 @@
 .page-header {
     background-color: #008000;
-    margin-top: 20;
-    padding: 36px 36px 36px 36px;
+    margin-top: 2;
+    padding: 60px 60px 60px 60px;
 }
 
 .page-header h1, .page-header h1 a, .page-header h1 a:visited, .page-header h1 a:active {
     color: black;
-    font-size: 28pt;
+    font-size: 36pt;
     text-decoration: none;
 }
 
@@ -44,3 +44,17 @@ h1, h2, h3, h4 {
 .post h1 a, .post h1 a:visited {
     color: #000000;
 }
+
+div.container {
+    height: 10em;
+    position: relative }
+div.container h {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    font-size: 100pt;
+    color: black;
+    font-family: 'Lobster', cursive;
+    transform: translate(-50%, -50%) }

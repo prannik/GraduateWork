@@ -2,26 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c0b80b79-bd32-4500-ac75-065e26463fa2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/store/templates/store/product_detail.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/store/templates/store/product_review.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/store/templates/store/review_edit.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/store/templates/store/review_new.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/store/templates/store/basket.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/store/templates/store/main.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/blog/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/templates/registration/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/registration/login.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/blog/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog/templates/blog/post_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/blog/templates/blog/post_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog/templates/blog/post_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/blog/templates/blog/post_list.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/blog/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/blog/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/images/кресло.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/images/прочее_wjr3tT9.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/store/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/store/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/store/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/static/css/static.css" beforeDir="false" afterPath="$PROJECT_DIR$/store/static/css/store.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/store/static/css/store.css" beforeDir="false" afterPath="$PROJECT_DIR$/store/static/css/store.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/templates/store/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/store/templates/store/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/templates/store/product_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/store/templates/store/product_list.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/store/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/store/views.py" afterDir="false" />
     </list>
@@ -60,7 +51,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="add_unversioned_files" value="$PROJECT_DIR$/myvenv/lib/python3.8/site-packages/django/db/migrations/operations/fields.py&#10;/home/maksim/PycharmProjects/GraduateWork/media/images/51jPSXcTt5L.jpg" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../CaesarСipher " />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">

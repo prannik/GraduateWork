@@ -4,7 +4,6 @@ from .views import post_list, post_detail, post_new, post_edit, post_delete, pos
     published_draft, tag_delete, cat_post_list, comment_like_or_dislike
 
 urlpatterns = [
-    path('', post_list, name='post_list'),
 
     path('list/', post_list, name='post_list'),
     path('cat_post_list/<int:cat_pk>', cat_post_list, name='cat_post_list'),

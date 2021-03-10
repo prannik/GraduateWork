@@ -7,9 +7,9 @@ class Post(models.Model):
     title = models.CharField(max_length=48)
     text = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
-    counter = models.IntegerField(default=0)
-    post_likes = models.IntegerField(default=0)
-    post_dislikes = models.IntegerField(default=0)
+    counter = models.PositiveIntegerField(default=0)
+    post_likes = models.PositiveIntegerField(default=0)
+    post_dislikes = models.PositiveIntegerField(default=0)
     image = models.ImageField(upload_to='images/', null=True, blank=True)
     tag = models.ManyToManyField('Tag', related_name='POSTS', blank=True)
     draft = models.BooleanField(default=False)
@@ -23,8 +23,8 @@ class Comment(models.Model):
     author = models.ForeignKey('auth.User', on_delete=models.CASCADE, blank=True, null=True)
     text = models.TextField(max_length=300)
     date = models.DateTimeField(auto_now_add=True)
-    comment_likes = models.IntegerField(default=0)
-    comment_dislikes = models.IntegerField(default=0)
+    comment_likes = models.PositiveIntegerField(default=0)
+    comment_dislikes = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return f'{self.author} - {self.post}'

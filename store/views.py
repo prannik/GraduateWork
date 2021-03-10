@@ -1,12 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
-from .models import Product, ProductCategory, ProductReview, ProductReviewLike
+from .models import Product, ProductCategory, ProductReview, ProductReviewLike, ProductInBasket
 from .forms import ProductReviewForm
 
 
 def product_list(request):
     category = ProductCategory.objects.all()
-    products = Product.objects.filter(date__lte=timezone.now()).order_by('date')
+    products = Product.objects.filter(status=False, date__lte=timezone.now()).order_by('date')
     return render(request, 'store/product_list.html', {'products': products, 'category': category})
 
 def product_detail(request, product_pk):
@@ -91,3 +91,12 @@ def review_like_or_dislike(request, product_pk, review_pk, is_like):
             review.dislikes += 1
             review.save()
     return redirect('product_detail', product_pk=product.pk)
+
+def basket(request):
+    products = ProductInBasket.objects.filter(basket=request.user.id)
+
+    sum_price = sum([product.product.price for product in products])
+    return render(request, 'store/basket.html', {'products': products, 'sum_price': sum_price})
+
+def main_page(request):
+    return render(request, 'store/main.html')

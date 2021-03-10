@@ -2,7 +2,7 @@
 
 <html lang="en" >
     <head>
-        <title>Store</title>
+        <title>Main</title>
         <meta charset="utf-8" />
         <link rel="icon" href="data:;base64,=">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
@@ -13,11 +13,6 @@
     <body>
         <div class="page-header">
             <h1>
-                <a href="{% url 'main_page' %}">Главная</a>
-                <a href="{% url 'product_list' %}">Магазин</a>
-                <a href="{% url 'post_list' %}">Форум</a>
-            </h1>
-            <h1>
                 {% if user.is_authenticated %}
                     <a href="{% url 'basket' %}"><span class="glyphicon glyphicon-shopping-cart" title="Корзина"></span></a>
                     <a href="{% url 'logout' %}" ><span class="glyphicon glyphicon-log-out" title="Выйти из аккаунта"></span></a>
@@ -27,13 +22,17 @@
                 {% endif %}
             </h1>
         </div>
-        <div class="content container">
-            <div class="row">
-                <div class="col-md-8">
-                    {% block content %}
-                    {% endblock %}
-                </div>
+        <div class="container">
+            <div class="post">
+                <h>
+                    <br><br>
+                    <a href="{% url 'product_list' %}" >Магазин</a>
+                    <br><br>
+                    <a href="{% url 'post_list' %}" >Форум</a>
+                </h>
             </div>
         </div>
+
     </body>
+
 </html>
