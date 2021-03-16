@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>Создание нового аккаунта</h1>
+        <br>
+        <form method="post">
+            {% csrf_token %}
+            {{ user_form.as_p }}
+            <script src='https://www.google.com/recaptcha/api.js'></script>
+            {% if messages %}
+                    {% for message in messages %}
+                        <p style="color:red;">{{ message }}<p>
+                    {% endfor %}
+            {% endif %}
+            <div class="form-group g-recaptcha" data-sitekey="6Lfbm2YaAAAAAGzzUyF-aVYT5TtUQZQV-bo3IpW7"></div>
+
+
+            <button type="submit">Отправить</button>
+        </form>
+
+{% endblock %}

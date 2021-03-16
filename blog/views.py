@@ -1,4 +1,3 @@
-from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from .models import Post, Comment, Tag, PostLike, CommentLike, Category
@@ -13,9 +12,9 @@ def post_list(request):
                                                    'drafts_counter': drafts_counter,
                                                    'category': category})
 
-def cat_post_list(request, cat_pk):
-    category = get_object_or_404(Category, pk=cat_pk)
-    posts = Post.objects.filter(category=category,draft=False,  date__lte=timezone.now()).order_by('date')
+def cat_post_list(request, slug):
+    category = get_object_or_404(Category, slug=slug)
+    posts = Post.objects.filter(category=category, draft=False,  date__lte=timezone.now()).order_by('date')
     return render(request, 'blog/category_post_list.html', {'posts': posts,
                                                             'category': category})
 
@@ -23,16 +22,16 @@ def draft_list(request):
     drafts = Post.objects.filter(draft=True, author=request.user, date__lte=timezone.now()).order_by('date')
     return render(request, 'blog/draft_list.html', {'posts': drafts})
 
-def published_draft(post_pk):
-    post = get_object_or_404(Post, pk=post_pk)
+def published_draft(slug):
+    post = get_object_or_404(Post, slug=slug)
     post.draft = False
     post.date = timezone.now()
     post.save()
     return redirect('post_list')
 
-def post_detail(request, post_pk):
-    post = get_object_or_404(Post, pk=post_pk)
-    comments = Comment.objects.filter(post=post_pk)
+def post_detail(request, slug):
+    post = get_object_or_404(Post, slug=slug)
+    comments = Comment.objects.filter(post=post)
     comments.counter = len(comments)
     post.save()
     return render(request, 'blog/post_detail.html', {'post': post,
@@ -46,32 +45,32 @@ def post_new(request):
             post = form.save(commit=False)
             post.author = request.user
             post.save()
-            return redirect('post_detail', post_pk=post.pk)
+            return redirect('post_detail', slug=post.slug)
     else:
         form = PostForm()
         return render(request, 'blog/post_new.html', {'form': form})
 
-def post_edit(request, post_pk):
-    post = get_object_or_404(Post, pk=post_pk)
+def post_edit(request, slug):
+    post = get_object_or_404(Post, slug=slug)
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
             post.save()
-            return redirect('post_detail', post_pk=post.pk)
+            return redirect('post_detail', slug=slug)
 
     else:
         form = PostForm(instance=post)
         return render(request, 'blog/post_edit.html', {'form': form})
 
-def post_delete(request, post_pk):
-    post = get_object_or_404(Post, pk=post_pk)
+def post_delete(request, slug):
+    post = get_object_or_404(Post, slug=slug)
     post.delete()
     return redirect('post_list')
 
-def post_comment(request, post_pk):
-    post = get_object_or_404(Post, pk=post_pk)
+def post_comment(request, slug):
+    post = get_object_or_404(Post, slug=slug)
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
@@ -79,20 +78,20 @@ def post_comment(request, post_pk):
             comment_form.author = request.user
             comment_form.post = post
             comment_form.save()
-            return redirect('post_detail', post_pk=post.pk)
+            return redirect('post_detail', slug=slug)
     else:
         comment_form = CommentForm()
         return render(request, 'blog/post_comment.html', {'comment_form': comment_form})
 
-def comment_delete(request, post_pk, comment_pk):
-    post = get_object_or_404(Post, pk=post_pk)
+def comment_delete(request, slug, comment_pk):
+    post = get_object_or_404(Post, slug=slug)
     comment = get_object_or_404(Comment, pk=comment_pk)
     comment.delete()
     post.save()
-    return redirect('post_detail', post_pk=post.pk)
+    return redirect('post_detail', slug=slug)
 
-def comment_edit(request, post_pk, comment_pk):
-    post = get_object_or_404(Post, pk=post_pk)
+def comment_edit(request, slug, comment_pk):
+    post = get_object_or_404(Post, slug=slug)
     comment = get_object_or_404(Comment, pk=comment_pk)
     if request.method == 'POST':
         form = CommentForm(request.POST, instance=comment)
@@ -100,7 +99,7 @@ def comment_edit(request, post_pk, comment_pk):
             comment = form.save(commit=False)
             comment.author = request.user
             comment.save()
-            return redirect('post_detail', post_pk=post.pk)
+            return redirect('post_detail', slug=slug)
     else:
         form = CommentForm(instance=comment)
         return render(request, 'blog/comment_edit.html', {'form': form})
@@ -110,8 +109,8 @@ def tag_post(request, tag_pk):
     posts = tag.POSTS.all()
     return render(request, 'blog/post_list.html', {'posts': posts})
 
-def tag_add(request, post_pk):
-    post = get_object_or_404(Post, pk=post_pk)
+def tag_add(request, slug):
+    post = get_object_or_404(Post, slug=slug)
     if request.method == "POST":
         form = TagForm(request.POST)
         if form.is_valid():
@@ -124,21 +123,21 @@ def tag_add(request, post_pk):
                 post.tag.add(tags[0])
             post.save()
 
-            return redirect('post_detail', post_pk=post.pk)
+            return redirect('post_detail', slug=slug)
     else:
         form = TagForm()
     return render(request, 'blog/tag_add.html', {'form': form})
 
-def tag_delete(request, post_pk, tag_pk):
-    post = get_object_or_404(Post, pk=post_pk)
+def tag_delete(request, slug, tag_pk):
+    post = get_object_or_404(Post, slug=slug)
     tag = get_object_or_404(Tag, pk=tag_pk)
     tag.delete()
     post.save()
-    return redirect('post_detail', post_pk=post.pk)
+    return redirect('post_detail', slug=slug)
 
 
-def post_like_or_dislike(request, post_pk, is_like, point):
-    post = get_object_or_404(Post, pk=post_pk)
+def post_like_or_dislike(request, slug, is_like, point):
+    post = get_object_or_404(Post, slug=slug)
     old_like = PostLike.objects.filter(user=request.user, for_post=post)
 
     if old_like:
@@ -175,11 +174,11 @@ def post_like_or_dislike(request, post_pk, is_like, point):
     if point == 'post_list':
         return redirect('post_list')
     elif point == 'post_detail':
-        return redirect('post_detail', post_pk=post.pk)
+        return redirect('post_detail', slug=slug)
 
 
-def comment_like_or_dislike(request, post_pk, comment_pk, is_like):
-    post = get_object_or_404(Post, pk=post_pk)
+def comment_like_or_dislike(request, slug, comment_pk, is_like):
+    post = get_object_or_404(Post, slug=slug)
     comment = get_object_or_404(Comment, pk=comment_pk)
 
     old_like = CommentLike.objects.filter(user=request.user, for_com=comment)
@@ -215,5 +214,5 @@ def comment_like_or_dislike(request, post_pk, comment_pk, is_like):
         elif is_like == 'dislike':
             comment.comment_dislikes += 1
             comment.save()
-    return redirect('post_detail', post_pk=post.pk)
+    return redirect('post_detail', slug=slug)
 

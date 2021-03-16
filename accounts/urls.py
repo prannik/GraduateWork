@@ -4,7 +4,7 @@ from accounts.views import registration
 from .decorators import check_recaptcha
 
 urlpatterns = [
-    path('login/', views.LoginView.as_view(), name='login'),
+    path('login/', check_recaptcha(views.LoginView.as_view()), name='login'),
     path('logout/', views.LogoutView.as_view(), name='logout'),
     path('registration/', check_recaptcha(registration), name='registration')
 

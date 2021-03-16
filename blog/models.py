@@ -1,22 +1,37 @@
+import os
 from django.db import models
+from django.urls import reverse
 from django import forms
 
+def get_upload_path(instance, filename):
+    filename = instance.slug + '.' + filename.split('.')[1]
+    return os.path.join('images/', filename)
 
 class Post(models.Model):
     author = models.ForeignKey('auth.User', on_delete=models.CASCADE, blank=True, null=True)
-    title = models.CharField(max_length=48)
+    title = models.CharField(max_length=64)
+    slug = models.SlugField(max_length=64, unique=True, db_index=True)
     text = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
-    counter = models.PositiveIntegerField(default=0)
     post_likes = models.PositiveIntegerField(default=0)
     post_dislikes = models.PositiveIntegerField(default=0)
-    image = models.ImageField(upload_to='images/', null=True, blank=True)
+    image = models.ImageField(upload_to=get_upload_path, blank=True)
     tag = models.ManyToManyField('Tag', related_name='POSTS', blank=True)
     draft = models.BooleanField(default=False)
     category = models.ForeignKey('Category', on_delete=models.CASCADE, null=True)
 
+    class Meta:
+        ordering = ('title',)
+        index_together = (('slug',),)
+        verbose_name = 'Пост'
+        verbose_name_plural = 'Посты'
+
     def __str__(self):
         return f'{self.title}'
+
+    def get_absolute_url(self):
+        return reverse('blog:post_detail', args=[self.slug])
+
 
 class Comment(models.Model):
     post = models.ForeignKey('Post', on_delete=models.CASCADE, blank=True, null=True)
@@ -26,6 +41,11 @@ class Comment(models.Model):
     comment_likes = models.PositiveIntegerField(default=0)
     comment_dislikes = models.PositiveIntegerField(default=0)
 
+    class Meta:
+        ordering = ('post', 'author')
+        verbose_name = 'Комментарий'
+        verbose_name_plural = 'Комментарии'
+
     def __str__(self):
         return f'{self.author} - {self.post}'
 
@@ -33,7 +53,7 @@ class Tag(models.Model):
     text = models.CharField(max_length=64)
 
     def __str__(self):
-        return self.text
+        return f'{self.text}'
 
 
 class PostLike(models.Model):
@@ -62,10 +82,25 @@ class CommentLike(models.Model):
                                        choices=LIKE_OR_DISLAKE_CHOICES,
                                        default=None)
 
+#
+# class Category(models.Model):
+#     name = models.CharField(max_length=48)
+#
+#     def __str__(self):
+#         return f'{self.name}'
+
 
 class Category(models.Model):
-    name = models.CharField(max_length=48)
+    name = models.CharField(max_length=150, db_index=True)
+    slug = models.SlugField(max_length=150, unique=True, db_index=True)
+
+    class Meta:
+        ordering = ('name',)
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
 
     def __str__(self):
         return f'{self.name}'
 
+    def get_absolute_url(self):
+        return reverse('blog:cat_post_list', args=[self.slug])

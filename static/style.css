@@ -1,0 +1,36 @@
+.page-header {
+    background-color: #008000;
+    margin-top: 1px;
+    padding: 36px 36px 36px 36px;
+}
+
+.page-header h1, .page-header h1 a, .page-header h1 a:visited, .page-header h1 a:active {
+    color: black;
+    font-size: 28pt;
+    text-decoration: none;
+    font-family: 'Lobster', cursive;
+}
+
+
+.h1, h2, h3, h4 ,h1 a{
+    font-family: 'Lobster', cursive;
+    color: black;
+}
+
+.h6, h6 a{
+    font-family: 'Lobster', cursive;
+    color: black;
+    font-size: 1rem;
+}
+
+.date {
+    color: #483D8B;
+}
+
+.save {
+    float: right;
+}
+
+.btn{
+font-size: 1.1rem;
+}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <h>
+        Черновики:
+    </h>
+    {% for post in posts %}
+
+        <div >
+            <h><a href="{% url 'post_detail' slug=post.slug %}">{{ post.title }}</a></h>
+
+            <div >
+                Создан: {{ post.date }}
+            </div>
+            <div>{{ post.text}}</div>
+
+            {% if user == post.author %}
+                <a class="btn btn-default" href="{% url 'post_edit' slug=post.slug %}">
+                    <span class="bi bi-pencil-square"  title="изменить"></span></a>
+                <a class="btn btn-default" href="{% url 'post_delete' slug=post.slug %}">
+                    <span class="bi bi-trash" title="удалить"></span></a>
+            {% endif %}
+
+            <a href="{% url 'published_draft' slug=post.slug %}">Опубликовать</a>
+
+        </div>
+
+    {% endfor %}
+{% endblock %}

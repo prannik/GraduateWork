@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+        <div class="row" style="margin-bottom: 5%;">
+            <div class="col-sm-4">
+                    <img src="{{product.image.url }}"  alt="изображение продукта"
+                                        style="height:320px; width:320px; float:left; margin: 7px 7px 7px 0;">
+            </div>
+            <div class="col-sm-8">
+                <h1>{{ product.name }}</h1>
+                <p>{{ product.description | safe }}</p>
+                <form action="{% url 'cart:cart_add' product.id %}" method="post">
+                        {% csrf_token %}
+                        {{ cart_product_form }}
+                        <input type="submit" value="Добавить в корзину" class="btn btn-outline-danger">
+                    </form>
+                <button type="button" value="Previous Page" class="btn btn-outline-warning" onClick="window.history.back();return false;">
+                    Назад
+                </button>
+            </div>
+        </div>
+    </br>
+
+</div>
+    
+{% endblock %}
