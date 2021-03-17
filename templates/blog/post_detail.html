@@ -1,8 +1,36 @@
 {% extends 'base.html' %}
 
+{% block content %}
+<div class="container">
+	<div class="row" style="margin-bottom: 5%;">
+        <div class="col col-lg-2">
+            <h1>
+                {% if user.is_authenticated %}
+                <a href="{% url 'new' %}"  title="Новый пост">
+                    <span class="bi bi-journal-plus"></span></a>
+                <a href="{% url 'draft_list' %}"  title="Черновики"><span class="bi bi-paperclip">
+                    {% if drafts_counter > 0%}
+                    {{drafts_counter}}
+                    {% endif %}
+                </span></a>
+                {% endif %}
+            </h1>
+            <h6>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <a href="{% url 'post_list' %}">Все категории</a>
+                    </li>
+                    {% for cat in category %}
+                        <li class="list-group-item">
+                            <a href="{% url 'cat_post_list' slug=cat.slug %}">{{cat.name}}</a>
+                        </li>
+                    {% endfor %}
 
-    {% block content %}
-        <div class="post" >
+                </ul>
+            </h6>
+        </div>
+
+		<div class="col">
             <h1>
                 {{post.title}}
             </h1>
@@ -17,13 +45,12 @@
             </div>
 
             <p>
-                <h3>
                     {% if post.image %}
                         <img src= {{ post.image.url }}  alt="{{ post.title }}"
-                             style="height:240; width:260; float:left; margin: 7px 7px 7px 0;">
+                             style="height:220; width:220; float:left; margin: 7px 7px 7px 0;">
                     {% endif %}
                     {{post.text}}
-                </h3>
+
             </p>
 
             <div> Tags:
@@ -31,13 +58,17 @@
                     <a href="{% url 'tag_post' tag_pk=tag.pk %}">#{{tag.text}}</a>
                     {% if user == post.author %}
                         <a class="btn btn-default" href="{% url 'tag_delete' slug=post.slug tag_pk=tag.pk%}">
-                            <span class="glyphicon glyphicon-trash" title="удалить"></span> </a>
+                            <span class="bi bi-trash" title="удалить"></span> </a>
                     {% endif %}
                 {% endfor%}
                 ---
                 {% if user == post.author %}
-                    <a href="{% url 'tag_add' slug=post.slug %}">Добавить новый тег</a>
                 {% endif %}
+				<form method="POST" action="">
+					{%csrf_token%}
+					{{form.as_p}}
+					<button type="submit">Добавить новый</button>
+				</form>
 
             </div>
 
@@ -62,36 +93,39 @@
 
         </div>
 
-        Всего комментариев: {{ comments.counter }}<br>
 
-        {% if user.is_authenticated %}
-            <a href="{% url 'post_comment' slug=post.slug %}"> Добавить комментарий</a>
-            <br><br>
-            Комментарии:<br><br>
-            <div class="post" xmlns="http://www.w3.org/1999/html">
-            {% for comment in comments %}
-                {{ comment.author }}<br>
-                <div class="date">
-                    Опубликован: {{ comment.date }}<br>
-                </div>
-                {{ comment.text }}<br>
-                {% if user.is_authenticated %}
-                    <a class="btn btn-default" href="{% url 'comment_like_or_dislike' slug=post.slug comment_pk=comment.pk is_like='like'%}">
-                        <span class="bi bi-hand-thumbs-up"> {{ comment.comment_likes }}</span></a>
-                    <a class="btn btn-default" href="{% url 'comment_like_or_dislike' slug=post.slug comment_pk=comment.pk is_like='dislike'%}">
-                        <span class="bi bi-hand-thumbs-down"> {{ comment.comment_dislikes }}</span></a>
-                {% endif %}
-                {% if user == comment.author %}
-                    <a class="btn btn-default" href="{% url 'comment_edit' slug=post.slug comment_pk=comment.pk %}">
-                        <span class="bi bi-pencil-square" title="изменить"></span></a>
-                    <a class="btn btn-default" href="{% url 'comment_delete' slug=post.slug comment_pk=comment.pk %}">
-                        <span class="bi bi-trash" title="удалить"></span></a>
-                {% endif %}
+        <div class="col col-lg-2">
+            Всего комментариев: {{ comments.counter }}<br>
+
+            {% if user.is_authenticated %}
+                <a href="{% url 'post_comment' slug=post.slug %}"> Добавить комментарий</a>
                 <br><br>
-            {% endfor %}
-            </div>
-        {% endif %}
+                Комментарии:<br><br>
+                <div class="post" xmlns="http://www.w3.org/1999/html">
+                {% for comment in comments %}
+                    {{ comment.author }}<br>
+                    <div class="date">
+                        Опубликован: {{ comment.date }}<br>
+                    </div>
+                    {{ comment.text }}<br>
+                    {% if user.is_authenticated %}
+                        <a class="btn btn-default" href="{% url 'comment_like_or_dislike' slug=post.slug comment_pk=comment.pk is_like='like'%}">
+                            <span class="bi bi-hand-thumbs-up"> {{ comment.comment_likes }}</span></a>
+                        <a class="btn btn-default" href="{% url 'comment_like_or_dislike' slug=post.slug comment_pk=comment.pk is_like='dislike'%}">
+                            <span class="bi bi-hand-thumbs-down"> {{ comment.comment_dislikes }}</span></a>
+                    {% endif %}
+                    {% if user == comment.author %}
+                        <a class="btn btn-default" href="{% url 'comment_edit' slug=post.slug comment_pk=comment.pk %}">
+                            <span class="bi bi-pencil-square" title="изменить"></span></a>
+                        <a class="btn btn-default" href="{% url 'comment_delete' slug=post.slug comment_pk=comment.pk %}">
+                            <span class="bi bi-trash" title="удалить"></span></a>
+                    {% endif %}
+                    <br><br>
+                {% endfor %}
+                </div>
+            {% endif %}
+        </div>
 
 
 
-    {% endblock %}
+{% endblock %}

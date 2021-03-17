@@ -2,26 +2,53 @@
 
 {% block content %}
 <div class="container">
-        <div class="row" style="margin-bottom: 5%;">
-            <div class="col-sm-4">
-                    <img src="{{product.image.url }}"  alt="изображение продукта"
-                                        style="height:320px; width:320px; float:left; margin: 7px 7px 7px 0;">
-            </div>
-            <div class="col-sm-8">
-                <h1>{{ product.name }}</h1>
-                <p>{{ product.description | safe }}</p>
+	<div class="row" style="margin-bottom: 5%;">
+
+		<div class="col col-lg-2">
+			<h6>
+				<ul class="list-group">
+					<li class="list-group-item">
+						<a href="/">Все категории</a>
+					</li>
+					{% for category in categories %}
+						{% if category  == product.category%}
+							<li class="list-group-item" >
+								<a href="{{  category.get_absolute_url  }}" style="color: red">{{ category.name }}</a>
+							</li>
+						{% else %}
+							<li class="list-group-item">
+								<a href="{{  category.get_absolute_url  }}">{{ category.name }}</a>
+							</li>
+						{% endif %}
+					{% endfor %}
+				</ul>
+			</h6>
+		</div>
+
+		<div class="col">
+			<h1>{{ product.name }}</h1>
+			<p>
+
+				<img src="{{product.image.url }}" alt="изображение продукта"
+					style="height:320px; width:320px; float:left; margin: 7px 7px 7px 7px;">
+                <h4>Средняя оценка: {{ product.rating }}</h4>
+                <h4>Описание: </h4>
+				{{ product.description | safe }}
+			</p>
+			<h4>
+                Цена: {{ product.price }}
                 <form action="{% url 'cart:cart_add' product.id %}" method="post">
-                        {% csrf_token %}
-                        {{ cart_product_form }}
-                        <input type="submit" value="Добавить в корзину" class="btn btn-outline-danger">
-                    </form>
-                <button type="button" value="Previous Page" class="btn btn-outline-warning" onClick="window.history.back();return false;">
-                    Назад
-                </button>
-            </div>
-        </div>
+                    {% csrf_token %}
+                    {{ cart_product_form }}
+                    <input type="submit" value="Добавить в корзину" class="btn btn-outline-danger">
+                </form>
+            </h4>
+
+		</div>
+
+	</div>
     </br>
 
 </div>
-    
+
 {% endblock %}

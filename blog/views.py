@@ -13,14 +13,22 @@ def post_list(request):
                                                    'category': category})
 
 def cat_post_list(request, slug):
-    category = get_object_or_404(Category, slug=slug)
-    posts = Post.objects.filter(category=category, draft=False,  date__lte=timezone.now()).order_by('date')
-    return render(request, 'blog/category_post_list.html', {'posts': posts,
-                                                            'category': category})
+    cat = get_object_or_404(Category, slug=slug)
+    posts = Post.objects.filter(category=cat, draft=False,  date__lte=timezone.now()).order_by('date')
+    category = Category.objects.all()
+    drafts_counter = len(Post.objects.filter(draft=True))
+    return render(request, 'blog/post_list.html', {'posts': posts,
+                                                   'drafts_counter': drafts_counter,
+                                                   'category': category})
 
 def draft_list(request):
     drafts = Post.objects.filter(draft=True, author=request.user, date__lte=timezone.now()).order_by('date')
-    return render(request, 'blog/draft_list.html', {'posts': drafts})
+    category = Category.objects.all()
+    drafts_counter = 0
+    return render(request, 'blog/post_list.html', {'posts': drafts,
+                                                    'drafts_counter': drafts_counter,
+                                                    'category': category})
+
 
 def published_draft(slug):
     post = get_object_or_404(Post, slug=slug)
@@ -33,9 +41,25 @@ def post_detail(request, slug):
     post = get_object_or_404(Post, slug=slug)
     comments = Comment.objects.filter(post=post)
     comments.counter = len(comments)
-    post.save()
+    if request.method == "POST":
+        form = TagForm(request.POST)
+        if form.is_valid():
+            tag = form.save(commit=False)
+            tags = Tag.objects.filter(text=tag)
+            if len(tags) == 0:
+                tag.save()
+                post.tag.add(tag)
+            else:
+                post.tag.add(tags[0])
+            post.save()
+
+            return redirect('post_detail', slug=slug)
+    else:
+        form = TagForm()
+
     return render(request, 'blog/post_detail.html', {'post': post,
                                                      'comments': comments,
+                                                     'form': form,
                                                      'comments.counter': comments.counter})
 
 def post_new(request):
@@ -48,7 +72,7 @@ def post_new(request):
             return redirect('post_detail', slug=post.slug)
     else:
         form = PostForm()
-        return render(request, 'blog/post_new.html', {'form': form})
+        return render(request, 'blog/edit.html', {'form': form})
 
 def post_edit(request, slug):
     post = get_object_or_404(Post, slug=slug)
@@ -62,7 +86,7 @@ def post_edit(request, slug):
 
     else:
         form = PostForm(instance=post)
-        return render(request, 'blog/post_edit.html', {'form': form})
+        return render(request, 'blog/edit.html', {'form': form})
 
 def post_delete(request, slug):
     post = get_object_or_404(Post, slug=slug)
@@ -81,7 +105,7 @@ def post_comment(request, slug):
             return redirect('post_detail', slug=slug)
     else:
         comment_form = CommentForm()
-        return render(request, 'blog/post_comment.html', {'comment_form': comment_form})
+        return render(request, 'blog/edit.html', {'form': comment_form})
 
 def comment_delete(request, slug, comment_pk):
     post = get_object_or_404(Post, slug=slug)
@@ -102,31 +126,12 @@ def comment_edit(request, slug, comment_pk):
             return redirect('post_detail', slug=slug)
     else:
         form = CommentForm(instance=comment)
-        return render(request, 'blog/comment_edit.html', {'form': form})
+        return render(request, 'blog/edit.html', {'form': form})
 
 def tag_post(request, tag_pk):
     tag = get_object_or_404(Tag, pk=tag_pk)
     posts = tag.POSTS.all()
     return render(request, 'blog/post_list.html', {'posts': posts})
-
-def tag_add(request, slug):
-    post = get_object_or_404(Post, slug=slug)
-    if request.method == "POST":
-        form = TagForm(request.POST)
-        if form.is_valid():
-            tag = form.save(commit=False)
-            tags = Tag.objects.filter(text=tag)
-            if len(tags) == 0:
-                tag.save()
-                post.tag.add(tag)
-            else:
-                post.tag.add(tags[0])
-            post.save()
-
-            return redirect('post_detail', slug=slug)
-    else:
-        form = TagForm()
-    return render(request, 'blog/tag_add.html', {'form': form})
 
 def tag_delete(request, slug, tag_pk):
     post = get_object_or_404(Post, slug=slug)
@@ -215,4 +220,3 @@ def comment_like_or_dislike(request, slug, comment_pk, is_like):
             comment.comment_dislikes += 1
             comment.save()
     return redirect('post_detail', slug=slug)
-
