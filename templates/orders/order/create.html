@@ -4,17 +4,17 @@
     <div class="container">
         <div class="row" style="margin-top: 6%">
             <div class="col-md-8">
-                <h4 class="page-header">Форма заказа</h4>
-                <form action="." method="post">
+                <h1 class="page-header">Форма заказа</h1>
+                <form action="." method="post" enctype="multipart/form-data" >
                     {% csrf_token %}
                     {{ form.as_p }}<br>
                     <input type="submit" class="btn btn-primary" value="Подтвердить заказ">
                 </form>
             </div>
             <div class="col-md-4">
-                <div class="page-header">
+                <h6 class="page-header">
                     Заказ
-                </div>
+                </h6>
                 <ul class="list-group">
                     {% for item in cart %}
                         <li class="list-group-item">

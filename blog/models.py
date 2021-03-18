@@ -9,16 +9,16 @@ def get_upload_path(instance, filename):
 
 class Post(models.Model):
     author = models.ForeignKey('auth.User', on_delete=models.CASCADE, blank=True, null=True)
-    title = models.CharField(max_length=64)
+    title = models.CharField(max_length=64, verbose_name='Заголовок')
     slug = models.SlugField(max_length=64, unique=True, db_index=True)
-    text = models.TextField()
+    text = models.TextField(verbose_name='Текст поста')
     date = models.DateTimeField(auto_now_add=True)
     post_likes = models.PositiveIntegerField(default=0)
     post_dislikes = models.PositiveIntegerField(default=0)
-    image = models.ImageField(upload_to=get_upload_path, blank=True)
+    image = models.ImageField(upload_to=get_upload_path, blank=True, verbose_name='Картинка')
     tag = models.ManyToManyField('Tag', related_name='POSTS', blank=True)
-    draft = models.BooleanField(default=False)
-    category = models.ForeignKey('Category', on_delete=models.CASCADE, null=True)
+    draft = models.BooleanField(default=False, verbose_name='Черновик')
+    category = models.ForeignKey('Category', on_delete=models.CASCADE, null=True, verbose_name='Категория')
 
     class Meta:
         ordering = ('title',)
@@ -36,7 +36,7 @@ class Post(models.Model):
 class Comment(models.Model):
     post = models.ForeignKey('Post', on_delete=models.CASCADE, blank=True, null=True)
     author = models.ForeignKey('auth.User', on_delete=models.CASCADE, blank=True, null=True)
-    text = models.TextField(max_length=300)
+    text = models.TextField(max_length=300, verbose_name='Текст комментария')
     date = models.DateTimeField(auto_now_add=True)
     comment_likes = models.PositiveIntegerField(default=0)
     comment_dislikes = models.PositiveIntegerField(default=0)
@@ -50,7 +50,7 @@ class Comment(models.Model):
         return f'{self.author} - {self.post}'
 
 class Tag(models.Model):
-    text = models.CharField(max_length=64)
+    text = models.CharField(max_length=64, verbose_name='Hashtag')
 
     def __str__(self):
         return f'{self.text}'
@@ -81,13 +81,6 @@ class CommentLike(models.Model):
     like_or_dislike = models.CharField(max_length=7,
                                        choices=LIKE_OR_DISLAKE_CHOICES,
                                        default=None)
-
-#
-# class Category(models.Model):
-#     name = models.CharField(max_length=48)
-#
-#     def __str__(self):
-#         return f'{self.name}'
 
 
 class Category(models.Model):

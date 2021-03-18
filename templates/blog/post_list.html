@@ -20,10 +20,16 @@
                         <li class="list-group-item">
                             <a href="{% url 'post_list' %}">Все категории</a>
                         </li>
-                        {% for cat in category %}
-                            <li class="list-group-item">
-                                <a href="{% url 'cat_post_list' slug=cat.slug %}">{{cat.name}}</a>
-                            </li>
+                        {% for cat in categories %}
+                            {% if cat  == category%}
+                                <li class="list-group-item">
+                                    <a href="{% url 'cat_post_list' slug=cat.slug %}" style="color: red">{{cat.name}}</a>
+                                </li>
+                            {% else %}
+                                <li class="list-group-item">
+                                    <a href="{% url 'cat_post_list' slug=cat.slug %}">{{cat.name}}</a>
+                                </li>
+                            {% endif %}
                         {% endfor %}
 
                     </ul>
@@ -31,23 +37,28 @@
             </div>
 
             <div class="col">
-                <h1>Посты:</h1>
+                <ul class="list-group">
+                        <li class="list-group-item">
+                            <h1>Посты:</h1>
+                        </li>
                     {% for post in posts %}
-                        <div style="border: 1px double black; background: white;padding: 10px;">
+                        <li class="list-group-item">
                             <h1><a href="{% url 'post_detail' slug=post.slug %}">{{ post.title }}</a></h1>
-                            <div class="date">
-                                <p>
+                            <p>
+                                <div class="date">
+
                                 {% if post.category %}
                                     Категория: <a href="{% url 'cat_post_list'  slug=post.category.slug %}">{{post.category.name}}</a>
                                 {% endif %}
                                     Опубликовано: {{ post.date }}
-                                </p>
-                            </div>
+
+                                </div>
+
                             <div>
                                 <p>
                                     {% if post.image %}
                                          <img src= {{ post.image.url }}  alt="{{ post.title }}"
-                                                style="height:120px; width:120px; float:left; margin: 7px 7px 7px 7px;">
+                                                style="height:220px; width:220px; float:left; margin: 7px 7px 7px 7px;">
                                     {% endif %}
                                     {{ post.text}}
                                 </p>
@@ -67,10 +78,10 @@
                                 <a class="btn btn-default" href="{% url 'post_delete' slug=post.slug %}">
                                     <span class="bi bi-trash" title="удалить"></span></a>
                             {% endif %}
-                        </div>
+
                         <br>
                     {% endfor %}
-                </div>
+                </li>
             </div>
         </div>
 

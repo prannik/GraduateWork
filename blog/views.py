@@ -5,19 +5,20 @@ from .forms import PostForm, CommentForm, TagForm
 
 
 def post_list(request):
-    category = Category.objects.all()
+    categories = Category.objects.all()
     posts = Post.objects.filter(draft=False, date__lte=timezone.now()).order_by('date')
     drafts_counter = len(Post.objects.filter(draft=True))
     return render(request, 'blog/post_list.html', {'posts': posts,
                                                    'drafts_counter': drafts_counter,
-                                                   'category': category})
+                                                   'categories': categories})
 
 def cat_post_list(request, slug):
-    cat = get_object_or_404(Category, slug=slug)
-    posts = Post.objects.filter(category=cat, draft=False,  date__lte=timezone.now()).order_by('date')
-    category = Category.objects.all()
+    category = get_object_or_404(Category, slug=slug)
+    posts = Post.objects.filter(category=category, draft=False,  date__lte=timezone.now()).order_by('date')
+    categories = Category.objects.all()
     drafts_counter = len(Post.objects.filter(draft=True))
     return render(request, 'blog/post_list.html', {'posts': posts,
+                                                   'categories': categories,
                                                    'drafts_counter': drafts_counter,
                                                    'category': category})
 
@@ -68,6 +69,7 @@ def post_new(request):
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
+            post.slug = post.title
             post.save()
             return redirect('post_detail', slug=post.slug)
     else:
