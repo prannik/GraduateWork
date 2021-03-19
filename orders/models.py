@@ -5,12 +5,12 @@ from shop.models import Product
 
 
 class Order (models.Model):
-    first_name = models.CharField(max_length=60)
-    last_name = models.CharField(max_length=60)
-    email = models.EmailField()
-    address = models.CharField(max_length=150)
-    postal_code = models.CharField(max_length=30)
-    city = models.CharField(max_length=100)
+    first_name = models.CharField(max_length=60, verbose_name='Фамилия')
+    last_name = models.CharField(max_length=60, verbose_name='Имя')
+    email = models.EmailField(verbose_name='Email')
+    address = models.CharField(max_length=150, verbose_name='Адрес')
+    postal_code = models.CharField(max_length=30, verbose_name='Индекс')
+    city = models.CharField(max_length=100, verbose_name='Город')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     paid = models.BooleanField(default=False)  # оплачен ли заказ

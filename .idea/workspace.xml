@@ -6,13 +6,37 @@
   <component name="ChangeListManager">
     <list default="true" id="c0b80b79-bd32-4500-ac75-065e26463fa2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/blog/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog/migrations/0001_initial.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/blog/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/blog/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/images/first-post-django.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/images/post-3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/images/product-1.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/images/product-2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/images/product-3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/images/second-post-django.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/images/vsar.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/orders/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/orders/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/orders/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shop/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/shop/migrations/0002_productreview_productreviewlike.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/shop/migrations/0003_product_rating.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/shop/migrations/0004_auto_20210316_1247.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/shop/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/shop/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shop/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/shop/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shop/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/shop/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/blog/draft_list.html" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/blog/edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/blog/edit.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/blog/post_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/blog/post_detail.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/blog/post_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/blog/post_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/cart/detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/cart/detail.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/orders/order/create.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/orders/order/create.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/registration/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/registration/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/registration/registration.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/registration/registration.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/shop/product/detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/shop/product/detail.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/shop/product/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/shop/product/list.html" afterDir="false" />
     </list>

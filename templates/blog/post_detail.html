@@ -20,10 +20,16 @@
                     <li class="list-group-item">
                         <a href="{% url 'post_list' %}">Все категории</a>
                     </li>
-                    {% for cat in category %}
-                        <li class="list-group-item">
-                            <a href="{% url 'cat_post_list' slug=cat.slug %}">{{cat.name}}</a>
-                        </li>
+                    {% for cat in categories %}
+                        {% if cat  == post.category%}
+                            <li class="list-group-item">
+                                <a href="{% url 'cat_post_list' slug=cat.slug %}" style="color: red">{{cat.name}}</a>
+                            </li>
+                        {% else %}
+                            <li class="list-group-item">
+                                <a href="{% url 'cat_post_list' slug=cat.slug %}">{{cat.name}}</a>
+                            </li>
+                        {% endif %}
                     {% endfor %}
 
                 </ul>
@@ -47,7 +53,7 @@
             <p>
                 {% if post.image %}
                     <img src= {{ post.image.url }}  alt="{{ post.title }}"
-                         style="height:220px; width:220px; float:left; margin: 7px 7px 7px 7px;">
+                         style="height:320px; width:auto; float:left; margin: 7px 7px 7px 7px;">
                 {% endif %}
                 {{ post.text}}
 

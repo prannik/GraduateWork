@@ -22,11 +22,11 @@ def product_list(request, category_slug=None):
     return render(request, 'shop/product/list.html', context)
 
 
-def product_detail(request, id, slug):
-    product = get_object_or_404(Product, id=id, slug=slug, available=True)
+def product_detail(request, slug):
+    product = get_object_or_404(Product, slug=slug, available=True)
     cart_product_form = CartAddProductForm()
     categories = Category.objects.all()
-    reviews = ProductReview.objects.filter(product=get_object_or_404(Product, id=id, slug=slug, available=True))
+    reviews = ProductReview.objects.filter(product=get_object_or_404(Product, slug=slug, available=True))
     if reviews:
         sum_mark = 0
         for i in reviews:
@@ -43,7 +43,7 @@ def product_detail(request, id, slug):
     return render(request, 'shop/product/detail.html', context)
 
 
-def product_review(request, slug):
+def review(request, slug):
     product = get_object_or_404(Product, slug=slug)
     if request.method == 'POST':
         form = ProductReviewForm(request.POST)
@@ -52,17 +52,17 @@ def product_review(request, slug):
             review_form.author = request.user
             review_form.product = product
             review_form.save()
-            return redirect('detail', slug)
+            return redirect('shop:product_detail', slug)
     else:
         review_form = ProductReviewForm()
-        return render(request, 'shop/product/review.html', {'review_form': review_form})
+        return render(request, 'blog/edit.html', {'form': review_form})
 
 def review_delete(request, slug, review_pk):
     product = get_object_or_404(Product, slug=slug)
     review = get_object_or_404(ProductReview, pk=review_pk)
     review.delete()
     product.save()
-    return redirect('detail', slug)
+    return redirect('shop:product_detail', slug)
 
 def review_edit(request, slug, review_pk):
     product = get_object_or_404(Product, slug=slug)
@@ -73,10 +73,10 @@ def review_edit(request, slug, review_pk):
             review = form.save(commit=False)
             review.author = request.user
             review.save()
-            return redirect('detail', slug)
+            return redirect('shop:product_detail', slug)
     else:
         form = ProductReviewForm(instance=review)
-        return render(request, 'shop/review_edit.html', {'form': form})
+        return render(request, 'blog/edit.html', {'form': form})
 
 def review_like_or_dislike(request, slug, review_pk, is_like):
     product = get_object_or_404(Product, slug=slug)
@@ -113,5 +113,5 @@ def review_like_or_dislike(request, slug, review_pk, is_like):
         elif is_like == 'dislike':
             review.dislikes += 1
             review.save()
-    return redirect('detail', slug=slug)
+    return redirect('shop:product_detail', slug)
 

@@ -8,17 +8,13 @@
     color: black;
     font-size: 28pt;
     text-decoration: none;
-    font-family: 'Lobster', cursive;
 }
 
-
-.h1, h2, h3, h4 ,h1 a{
-    font-family: 'Lobster', cursive;
+.h1, .h2, .h3, .h4,.h1 a{
     color: black;
 }
 
-.h6, h6 a{
-    font-family: 'Lobster', cursive;
+.h6, .h6 a{
     color: black;
     font-size: 1rem;
 }
@@ -32,6 +28,11 @@
 }
 
 .btn{
-font-size: 1.1rem;
+    font-size: 1.1rem;
+}
+
+.container, .container-fluid{
+    font-family: 'Lobster', cursive;
+
 }
 

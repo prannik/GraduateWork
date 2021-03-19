@@ -2,36 +2,48 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="card" xmlns="http://www.w3.org/1999/html">
-        <div class="card-body">
-            <h4 class="card-title">Войти в аккаунт</h4>
+<div style="color: black;font-size: 18pt;text-decoration: none;font-family: 'Lobster', cursive;">
+    <div class="container-fluid">
+	<div class="row justify-content-md-center" >
+        <div class="col col-lg-2">
+        </div>
+        <div class="col-md-auto">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <h1>Войти в аккаунт</h1>
+                </li>
+                <li class="list-group-item" >
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        Имя пользователя: <br><input type ="text" name ="username" value=""  size="50"> <br />
+                        <br>
+                        Пароль:<br> <input type ="password" name ="password" value=""  size="50"/> <br />
+                        <br>
 
-            <form method="post">
-                {% csrf_token %}
-                <input type="hidden" name="next" value="{{ next }}">
-                {{ form|crispy }}
-                <script src='https://www.google.com/recaptcha/api.js'></script>
-                {% if messages %}
-                    {% for message in messages %}
-                        <p style="color:red;">{{ message }}<p>
-                    {% endfor %}
-                {% endif %}
-                <div class="form-group g-recaptcha" data-sitekey="6Lfbm2YaAAAAAGzzUyF-aVYT5TtUQZQV-bo3IpW7"></div>
-
-                <button type="submit" class="btn btn-primary btn-block">Войти</button>
-            </form>
-
+                        <script src='https://www.google.com/recaptcha/api.js'></script>
+                        {% if messages %}
+                            {% for message in messages %}
+                                <p style="color:red;">{{ message }}<p>
+                            {% endfor %}
+                        {% endif %}
+                        <div class="form-group g-recaptcha" data-sitekey="6Lfbm2YaAAAAAGzzUyF-aVYT5TtUQZQV-bo3IpW7"></div>
+                        <button type="submit" class="btn btn-primary btn-block">Войти</button>
+                    </form>
+                </li>
+                <li class="list-group-item" >
+                    <div class="card-body">
+                        Ещё нет аккаунта? <a href="{% url 'registration' %}"> Зарегистрируйтесь
+                        <span class="bi bi-person-plus-fill"> </a></span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="col col-lg-2">
         </div>
     </div>
 
     <br>
 
-    <div class="card">
-        <div class="card-body">
-            <span class="form-additional-message">Ещё нет аккаунта?&nbsp;
-            <a href="{% url 'registration' %}" class="form-additional-message__link" >Зарегистрируйтесь</a>
-            </span>
-        </div>
-    </div>
 
+</div>
 {% endblock %}

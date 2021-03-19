@@ -46,15 +46,15 @@ class Product(models.Model):
 
     class Meta:
         ordering = ('name',)
-        index_together = (('id', 'slug'),)
+        index_together = (('slug',),)
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
     
     def __str__(self):
-        return self.name
+        return f'{self.name}'
     
     def get_absolute_url(self):
-        return reverse('shop:product_detail', args=[self.id, self.slug])
+        return reverse('shop:product_detail', args=[self.slug])
 
 class ProductReview(models.Model):
     MARK_CHOICES = (
@@ -76,7 +76,7 @@ class ProductReview(models.Model):
     mark = models.CharField(max_length=4, choices=MARK_CHOICES)
 
     class Meta:
-        ordering = ('product','mark')
+        ordering = ('product', 'mark')
         verbose_name = 'Отзыв'
         verbose_name_plural = 'Отзывы'
 

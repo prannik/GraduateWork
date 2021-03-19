@@ -24,11 +24,11 @@ def cat_post_list(request, slug):
 
 def draft_list(request):
     drafts = Post.objects.filter(draft=True, author=request.user, date__lte=timezone.now()).order_by('date')
-    category = Category.objects.all()
+    categories = Category.objects.all()
     drafts_counter = 0
     return render(request, 'blog/post_list.html', {'posts': drafts,
                                                     'drafts_counter': drafts_counter,
-                                                    'category': category})
+                                                   'categories': categories})
 
 
 def published_draft(slug):
@@ -40,6 +40,7 @@ def published_draft(slug):
 
 def post_detail(request, slug):
     post = get_object_or_404(Post, slug=slug)
+    categories = Category.objects.all()
     comments = Comment.objects.filter(post=post)
     comments.counter = len(comments)
     if request.method == "POST":
@@ -59,6 +60,7 @@ def post_detail(request, slug):
         form = TagForm()
 
     return render(request, 'blog/post_detail.html', {'post': post,
+                                                     'categories': categories,
                                                      'comments': comments,
                                                      'form': form,
                                                      'comments.counter': comments.counter})

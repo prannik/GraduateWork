@@ -10,11 +10,12 @@
                     {{ form.as_p }}<br>
                     <input type="submit" class="btn btn-primary" value="Подтвердить заказ">
                 </form>
+                <button type="button" value="Previous Page" class="btn btn-primary" onClick="window.history.back();return false;">Назад</button>
             </div>
             <div class="col-md-4">
-                <h6 class="page-header">
+                <h1 class="page-header">
                     Заказ
-                </h6>
+                </h1>
                 <ul class="list-group">
                     {% for item in cart %}
                         <li class="list-group-item">

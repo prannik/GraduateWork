@@ -10,7 +10,14 @@
 
                 <form method="POST" enctype="multipart/form-data" >
                     {% csrf_token %}
-                    {{ form.as_p }}
+                    {% for field in form %}
+                        <div class="fieldWrapper" >
+                            {{ field.errors }}
+                            {{ field.label_tag }}<br>
+                            {{ field }}
+                        </div>
+                    {% endfor %}
+                    <br>
                     <button type="submit" class="btn btn-primary"> Отправить </button>
                 </form>
             </div>
