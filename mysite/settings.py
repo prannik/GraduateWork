@@ -1,6 +1,7 @@
 from pathlib import Path
 import os
 import dj_database_url
+import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -19,7 +20,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '(k-cyql8w(!l4%%ro+pqh3bl70!-q@
 DEBUG = bool( os.environ.get('DJANGO_DEBUG', True))
 
 
-ALLOWED_HOSTS = ['127.0.0.1', 'mysterious-cliffs-39785.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'nameless-crag-89185.herokuapp.com']
 
 
 # Application definition
@@ -132,10 +133,8 @@ USE_TZ = True
 
 
 STATIC_URL = '/static/'
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
@@ -146,3 +145,5 @@ CART_SESSION_ID = 'cart'
 
 GOOGLE_RECAPTCHA_SITE_KEY = '6Lfbm2YaAAAAAGzzUyF-aVYT5TtUQZQV-bo3IpW7'
 GOOGLE_RECAPTCHA_SECRET_KEY = '6Lfbm2YaAAAAAJsy5_kYjOzT247W30QP3i7HTe1b'
+
+django_heroku.settings(locals())
