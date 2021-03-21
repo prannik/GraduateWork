@@ -1,7 +1,6 @@
 from pathlib import Path
 import os
 import dj_database_url
-import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -146,4 +145,3 @@ CART_SESSION_ID = 'cart'
 GOOGLE_RECAPTCHA_SITE_KEY = '6Lfbm2YaAAAAAGzzUyF-aVYT5TtUQZQV-bo3IpW7'
 GOOGLE_RECAPTCHA_SECRET_KEY = '6Lfbm2YaAAAAAJsy5_kYjOzT247W30QP3i7HTe1b'
 
-django_heroku.settings(locals())
