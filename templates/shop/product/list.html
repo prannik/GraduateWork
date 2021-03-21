@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container">
+    <div class="container-fluid">
       <div class="row justify-content-md-center">
-        <div class="col col-lg-2">
+        <div class="col-2">
             <h6 >
                 <ul class="list-group">
                     <li class="list-group-item">
@@ -24,7 +24,7 @@
             </h6>
         </div>
 
-        <div class="col">
+        <div class="col-6">
             <ul class="list-group">
                 <li class="list-group-item">
                      <h1>Продукты: </h1>
@@ -37,7 +37,11 @@
                         <h6><a href="{{ product.get_absolute_url }}"  style="color: black; font-size: 36pt;">{{product.name}}</a></h6>
                         <h4>Описание: </h4>{{product.description | truncatechars:100}}
                     </p>
-                    <h4>Средняя оценка: {{ product.rating }}</h4><br>
+                    {% if product.rating > 0 %}
+                        <h4>Средняя оценка: {{ product.rating }}</h4><br>
+                    {% else %}
+                        <h4><a href='{% url "review" slug=product.slug %}' title="Написать отзыв">Отзывов пока нет</a></h4>
+                    {% endif %}
                     <h4>
                         Цена: {{ product.price }}
                         <form action="{% url 'cart_add' product.id %}" method="post">

@@ -2,7 +2,6 @@ from django.urls import path
 from .views import product_list, product_detail, review, review_edit, review_delete, \
     review_like_or_dislike
 
-# app_name = 'shop'
 
 urlpatterns = [
     path('', product_list, name='product_list'),

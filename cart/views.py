@@ -15,7 +15,7 @@ def cart_add(request, product_id):
     if form.is_valid():
         cd = form.cleaned_data
         cart.add(product=product, quantity=cd['quantity'], update_quantity=cd['update'])
-    return redirect('cart:cart_detail')
+    return redirect('cart_detail')
 
 
 def cart_remove(request, product_id):
@@ -23,7 +23,7 @@ def cart_remove(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     cart.remove(product)
     messages.success(request, 'Удалено')
-    return redirect('cart:cart_detail')
+    return redirect('cart_detail')
 
 
 def cart_detail(request):

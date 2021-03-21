@@ -31,7 +31,9 @@ def product_detail(request, slug):
         sum_mark = 0
         for i in reviews:
             sum_mark += int(i.mark)
-        product.rating = sum_mark / len(reviews)
+            product.rating = sum_mark / len(reviews)
+    else:
+        product.rating = 0
     product.save()
 
     context = {

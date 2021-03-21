@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="container-fluid">
-	<div class="row" style="margin-left: 10%;margin-right: 5%;">
+	<div class="row justify-content-md-center">
         <div class="col-2">
 			<h6>
 				<ul class="list-group">
@@ -30,7 +30,11 @@
 
 				<img src="{{product.image.url }}" alt="изображение продукта"
 					style="height: 320px; width: auto; float:left; margin: 7px 7px 7px 7px;">
-                <h4>Средняя оценка: {{ product.rating }}</h4>
+                {% if product.rating > 0 %}
+					<h4>Средняя оценка: {{ product.rating }}</h4><br>
+				{% else %}
+					<h4><a href='{% url "review" slug=product.slug %}' title="Написать отзыв">Отзывов пока нет</a></h4>
+				{% endif %}
                 <h4>Описание: </h4>
 				{{ product.description | safe }}
 			</p>
@@ -47,7 +51,7 @@
 
 		<div class="col-2">
 			{% if user.is_authenticated %}
-				<a href='{% url "review" slug=product.slug %}'> Написать отзыв </a>
+				<a href='{% url "review" slug=product.slug %}' title="Написать отзыв"> Написать отзыв </a>
 				<br><br>
 				{% if product.rating > 0  %}
 					<div class="post">Отзывы:
