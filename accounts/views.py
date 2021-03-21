@@ -26,7 +26,7 @@ def user_login(request):
                 if user.is_active:
                     login(request, user)
                     if request.recaptcha_is_valid:
-                        return redirect('/')
+                        return redirect('product_list')
 
             else:
                 messages.error(request, 'Пожалуйста, попробуйте еще раз.')

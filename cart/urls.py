@@ -6,7 +6,7 @@ from . views import (
     cart_remove
 )
 
-app_name = 'cart'
+# app_name = 'cart'
 
 urlpatterns = [
     path('', cart_detail, name='cart_detail'),

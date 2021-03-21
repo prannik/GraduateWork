@@ -19,7 +19,7 @@ class Category(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('shop:product_list_by_category', args=[self.slug])
+        return reverse('product_list_by_category', args=[self.slug])
     
 
 def get_upload_path(instance, filename):
@@ -54,7 +54,7 @@ class Product(models.Model):
         return f'{self.name}'
     
     def get_absolute_url(self):
-        return reverse('shop:product_detail', args=[self.slug])
+        return reverse('product_detail', args=[self.slug])
 
 class ProductReview(models.Model):
     MARK_CHOICES = (

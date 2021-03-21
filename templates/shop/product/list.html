@@ -40,7 +40,7 @@
                     <h4>Средняя оценка: {{ product.rating }}</h4><br>
                     <h4>
                         Цена: {{ product.price }}
-                        <form action="{% url 'cart:cart_add' product.id %}" method="post">
+                        <form action="{% url 'cart_add' product.id %}" method="post">
                             {% csrf_token %}
                             {{ cart_product_form }}
                             <input type="submit" value="Добавить в корзину" class="btn btn-outline-danger">

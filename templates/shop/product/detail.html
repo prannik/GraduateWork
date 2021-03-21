@@ -36,7 +36,7 @@
 			</p>
 			<h4>
                 Цена: {{ product.price }}
-                <form action="{% url 'cart:cart_add' product.id %}" method="post">
+                <form action="{% url 'cart_add' product.id %}" method="post">
                     {% csrf_token %}
                     {{ cart_product_form }}
                     <input type="submit" value="Добавить в корзину" class="btn btn-outline-danger">
@@ -47,7 +47,7 @@
 
 		<div class="col-2">
 			{% if user.is_authenticated %}
-				<a href='{% url "shop:review" slug=product.slug %}'> Написать отзыв </a>
+				<a href='{% url "review" slug=product.slug %}'> Написать отзыв </a>
 				<br><br>
 				{% if product.rating > 0  %}
 					<div class="post">Отзывы:
@@ -65,15 +65,15 @@
 								Минусы: {{ review.text_3 }}<br>
 							{% endif %}
 							{% if user.is_authenticated %}
-								<a class="btn btn-default" href="{% url 'shop:review_like_or_dislike' slug=product.slug review_pk=review.pk is_like='like'%}">
+								<a class="btn btn-default" href="{% url 'review_like_or_dislike' slug=product.slug review_pk=review.pk is_like='like'%}">
 									<span class="bi bi-hand-thumbs-up"> {{ review.likes }}</span></a>
-								<a class="btn btn-default" href="{% url 'shop:review_like_or_dislike' slug=product.slug review_pk=review.pk is_like='dislike'%}">
+								<a class="btn btn-default" href="{% url 'review_like_or_dislike' slug=product.slug review_pk=review.pk is_like='dislike'%}">
 									<span class="bi bi-hand-thumbs-down"> {{ review.dislikes }}</span></a>
 							{% endif %}<br>
 							{% if user == review.author %}
-								<a class="btn btn-default" href="{% url 'shop:review_edit' slug=product.slug review_pk=review.pk %}">
+								<a class="btn btn-default" href="{% url 'review_edit' slug=product.slug review_pk=review.pk %}">
 									<span class="bi bi-pencil-square" title="изменить"></span></a>
-								<a class="btn btn-default" href="{% url 'shop:review_delete' slug=product.slug review_pk=review.pk %}">
+								<a class="btn btn-default" href="{% url 'review_delete' slug=product.slug review_pk=review.pk %}">
 									<span class="bi bi-trash" title="удалить"></span></a>
 							{% endif %}
 							<br><br>

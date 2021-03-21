@@ -37,7 +37,7 @@
 
                     <div class="col">
                         <h1>
-                            <a href="/">Магазин</a>
+                            <a href='/'>Магазин</a>
                             <a href="{% url 'post_list' %}">Форум</a>
                         </h1>
                     </div>
@@ -46,10 +46,10 @@
                         <h1>
                             {% with totail_items=cart|length %}
                             {% if cart|length > 0 %}
-                                <a href="{% url 'cart:cart_detail' %}" title="В корзине {{ totail_items }} продуктов">
+                                <a href="{% url 'cart_detail' %}" title="В корзине {{ totail_items }} продуктов">
                                     <span class="bi bi-cart-fill">{{ totail_items }}</span></a>
                                 {% else %}
-                                <a href="{% url 'cart:cart_detail' %}" title="Корзина пуста">
+                                <a href="{% url 'cart_detail' %}" title="Корзина пуста">
                                     <span class="bi bi-cart"></span></a>
                             {% endif %}
                             {% endwith %}
