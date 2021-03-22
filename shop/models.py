@@ -25,7 +25,7 @@ class Category(models.Model):
 def get_upload_path(instance, filename):
     #  задаем название файла названием slug`а продукта
     filename = instance.slug + '.' + filename.split('.')[1]  
-    return os.path.join('images/', filename)
+    return os.path.join('static/images/', filename)
 
 
 class Product(models.Model):
