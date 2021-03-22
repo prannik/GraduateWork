@@ -34,9 +34,9 @@
         <div class="page-header">
             <div class="container-fluid">
 	            <div class="row justify-content-around">
-                    <div class="col-sm-6 col-md-4 col-xl">
+                    <div class="col-sm-2 col-md-2 col-xl-2">
                     </div>
-                    <div class="col-sm-6 col-md-4 col-xl">
+                    <div class="col-sm-2 col-md-2 col-xl-2">
                         <h1>
                             <a href='/'>Магазин</a>
                             <a href="{% url 'post_list' %}">Форум</a>
@@ -44,7 +44,9 @@
                         </h1>
                     </div>
 
-                    <div class="col-sm-6 col-md-4 col-xl">
+                    <div class="col-sm-2 col-md-2 col-xl-2">
+                    </div>
+                    <div class="col-sm-2 col-md-2 col-xl-2">
                         <h1>
                             {% with totail_items=cart|length %}
                             {% if cart|length > 0 %}
@@ -59,7 +61,7 @@
 
                     </div>
 
-                    <div class="col-sm-6 col-md-4 col-xl">
+                    <div class="col-sm-2 col-md-2 col-xl-2">
                         <h1>
                             {% if user.is_authenticated %}
                                 <a href="{% url 'logout' %}" >
@@ -71,7 +73,7 @@
                             {% endif %}
                         </h1>
                     </div>
-                    <div class="col-sm-6 col-md-4 col-xl">
+                    <div class="col-sm-2 col-md-2 col-xl-2">
                     </div>
 
                 </div>
