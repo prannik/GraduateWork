@@ -3,27 +3,26 @@
     {% block content %}
     <div class="container-fluid">
 	    <div class="row justify-content-md-center" style="margin-bottom: 5%;">
-            <div class="col col-lg-2">
+            <div class="col-sm-6 col-md-2 col-xl-2">
             </div>
 
-		    <div class="col">
+		    <div class="col-sm-6 col-md-6 col-xl-4">
 
                 <form method="POST" enctype="multipart/form-data" >
                     {% csrf_token %}
                     {% for field in form %}
                         <div class="fieldWrapper" >
                             {{ field.errors }}
-                            {{ field.label_tag }}<br>
-                            {{ field }}
+                            {{ field.label_tag }}{{ field }}
                         </div>
                     {% endfor %}
-                    <br>
+
                     <button type="submit" class="btn btn-primary"> Отправить </button>
                 </form>
             </div>
 
 
-            <div class="col col-lg-2">
+            <div class="col-sm-6 col-md-2 col-xl-2">
             </div>
         </div>
     </div>

@@ -1,76 +1,86 @@
 {% extends 'base.html' %}
-{% load static %}
+
 
 
 {% block content %}
-    <div class="container">
+    <div class="container-fluid">
         <div class="row" style="margin-top: 6%">
-        <h1>
-            <span class="badge pull-right">
-                {% with totail_items=cart|length %}
-                    {% if cart|length > 0 %}
-                        Текущий список покупок:
-                    {% else %}
-                        <h>В корзине пусто!</h>
-                    {% endif %}
-                {% endwith %}
-            </span>
-        </h1>
-        <table class="table table-dark table-hover" style="font-size: 18pt;">
-            <thead>
-              <tr>
-                <th scope="col">Изображение</th>
-                <th scope="col">Товар</th>
-                <th scope="col">Кол-во</th>
-                <th scope="col">Удалить</th>
-                <th scope="col">Цена одного товара</th>
-                <th scope="col">Цена</th>
-              </tr>
-            </thead>
-            <tbody>
-                {% for item in cart %}
-                    {% with product=item.product  %}
+            <div class="col-xs col-sm col-md-2 col-lg-2 col-xl-2">
+            </div>
+
+		    <div class="col-sm-6 col-md-8 col-xl-8">
+
+                <h1>
+                    <span class="badge pull-right">
+                        {% with totail_items=cart|length %}
+                            {% if cart|length > 0 %}
+                                Текущий список покупок:
+                            {% else %}
+                                <h>В корзине пусто!</h>
+                            {% endif %}
+                        {% endwith %}
+                    </span>
+                </h1>
+                <div class="table-responsive">
+                <table class="table table-dark table-hover" style="font-size: 18pt;">
+                    <thead>
+                      <tr>
+                        <th scope="col">Изображение</th>
+                        <th scope="col">Товар</th>
+                        <th scope="col">Кол-во</th>
+                        <th scope="col">Удалить</th>
+                        <th scope="col">Цена одного товара</th>
+                        <th scope="col">Цена</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cart %}
+                            {% with product=item.product  %}
+                                <tr>
+                                    <th scope="row">
+                                        <img src="{{ product.image.url }}" alt="..." style="height: 130px; width: auto">
+                                    </th>
+                                    <td><a href="{{ product.get_absolute_url }}">{{product.name}}</a></td>
+                                    <td>
+                                        <form action="{% url 'cart_add' product.id %}" method="post">
+                                            {% csrf_token %}
+                                            <span style="display:inline-block">
+                                                {{ item.update_quantity_form.quantity }}
+                                                {{ item.update_quantity_form.update }}
+                                                <input type="submit" value="Изменить" class="btn btn-outline-info">
+                                            </span>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'cart_remove' product.id %}" class="btn btn-outline-info">Удалить</a>
+                                    </td>
+                                    <td> {{ item.price }}</td>
+                                    <td> {{ item.total_price }}</td>
+                                </tr>
+                            {% endwith %}
+                        {% endfor %}
                         <tr>
-                            <th scope="row">
-                                <img src="{{ product.image.url }}" alt="..." style="height: 130px; width: auto">
-                            </th>
-                            <td><a href="{{ product.get_absolute_url }}">{{product.name}}</a></td>
-                            <td>
-                                <form action="{% url 'cart_add' product.id %}" method="post">
-                                    {% csrf_token %}
-                                    <span style="display:inline-block">
-                                        {{ item.update_quantity_form.quantity }}
-                                        {{ item.update_quantity_form.update }}
-                                        <input type="submit" value="Изменить" class="btn btn-outline-info">
-                                    </span>
-                                </form>
-                            </td>
-                            <td>
-                                <a href="{% url 'cart_remove' product.id %}" class="btn btn-outline-info">Удалить</a>
-                            </td>
-                            <td> {{ item.price }}</td>
-                            <td> {{ item.total_price }}</td>
+                            <td><b>Суммарная стоимость</b></td>
+                            <td colspan="4"></td>
+                            <td colspan="num"><b> {{ cart.get_total_price }}</b></td>
                         </tr>
+                    </tbody>
+                  </table>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <a href="{% url 'product_list' %}" class="btn btn-primary"><span class="bi bi-chevron-double-left" title="Продолжить покупку">Продолжить покупку</span></a>
+                    {% with totail_items=cart|length %}
+                        {% if cart|length > 0 %}
+                            <a href="{% url 'order_create' %}" class="btn btn-primary">Оформить заказ<span class="bi bi-chevron-double-right" title="Оформить заказ"></span></a>
+                        {% endif %}
                     {% endwith %}
-                {% endfor %}
-                <tr>
-                    <td><b>Суммарная стоимость</b></td>
-                    <td colspan="4"></td>
-                    <td colspan="num"><b> {{ cart.get_total_price }}</b></td>
-                </tr>
-            </tbody>
-          </table>
-                
-                </tbody>
-            </table>
-        <div>
-            <a href="{% url 'product_list' %}" class="btn btn-primary"><span class="bi bi-chevron-double-left" title="Продолжить покупку">Продолжить покупку</span></a>
-            {% with totail_items=cart|length %}
-                {% if cart|length > 0 %}
-                    <a href="{% url 'order_create' %}" class="btn btn-primary">Оформить заказ<span class="bi bi-chevron-double-right" title="Оформить заказ"></span></a>
-                {% endif %}
-            {% endwith %}
+                </div>
+            </div>
         </div>
-        </div>
+        <div class="col-xs col-sm col-md-2 col-lg-2 col-xl-2">
+            </div>
     </div>
 {% endblock %}

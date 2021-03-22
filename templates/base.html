@@ -32,17 +32,19 @@
 
     <body>
         <div class="page-header">
-            <div class="container">
-	            <div class="row justify-content-md-center">
-
-                    <div class="col">
+            <div class="container-fluid">
+	            <div class="row justify-content-around">
+                    <div class="col-sm-6 col-md-4 col-xl">
+                    </div>
+                    <div class="col-sm-6 col-md-4 col-xl">
                         <h1>
                             <a href='/'>Магазин</a>
                             <a href="{% url 'post_list' %}">Форум</a>
+
                         </h1>
                     </div>
 
-                    <div class="col">
+                    <div class="col-sm-6 col-md-4 col-xl">
                         <h1>
                             {% with totail_items=cart|length %}
                             {% if cart|length > 0 %}
@@ -54,9 +56,10 @@
                             {% endif %}
                             {% endwith %}
                         </h1>
+
                     </div>
 
-                    <div class="col">
+                    <div class="col-sm-6 col-md-4 col-xl">
                         <h1>
                             {% if user.is_authenticated %}
                                 <a href="{% url 'logout' %}" >
@@ -67,6 +70,8 @@
                                     <span class="bi bi-box-arrow-right" title="Войти в аккаунта"></span></a>
                             {% endif %}
                         </h1>
+                    </div>
+                    <div class="col-sm-6 col-md-4 col-xl">
                     </div>
 
                 </div>
