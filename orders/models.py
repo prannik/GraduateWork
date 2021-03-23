@@ -12,7 +12,7 @@ class Order (models.Model):
     city = models.CharField(max_length=100, verbose_name='Город')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    paid = models.BooleanField(default=False)  # оплачен ли заказ
+    paid = models.BooleanField(default=False) 
 
     class Meta:
         ordering = ('-created',)
