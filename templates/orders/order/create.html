@@ -39,6 +39,7 @@
       {% for item in cart %}
       <p><a href="#">{{ item.product.name }}</a>x {{ item.quantity }}<span class="price">{{ item.total_price }}</span></p>
       <hr>
+        {% endfor %}
       <p>Общая стоимость: <span class="price" style="color:black"><b>{{ cart.get_total_price }}</b></span></p>
     </div>
     <input type="submit" class="btn btn-primary" value="Подтвердить заказ">
