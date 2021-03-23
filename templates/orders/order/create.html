@@ -6,9 +6,9 @@
 	<div class="row justify-content-md-center">
 	<div class="col-50">
       <div class="container">
-        <h4>Заказ <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i> <b>{{ cart.get_totail_items }}</b></span></h4>
+        <h4>Заказ <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i> </span></h4>
         {% for item in cart %}
-        <p><a href="#">{{ item.product.name }}</a>x {{ item.quantity }}<span class="price">{{ item.total_price }}</span></p>
+        <p><a href="#">{{ item.product.name }}</a>  x  {{ item.quantity }}<span class="price">{{ item.total_price }}</span></p>
         <br>
         {% endfor %}
 	      <hr>
@@ -38,7 +38,7 @@
       </form>
 	    <input type="submit" class="btn btn-primary" value="Подтвердить заказ">
       </div>
-       <input type="submit" class="btn btn-primary" value="Подтвердить заказ">
+    
   </div>
   
 </div>
