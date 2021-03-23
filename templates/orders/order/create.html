@@ -1,15 +1,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container-fluid">
+<div class="container-fluid" style='.btn {background-color: #4CAF50;color: white;padding: 12px;margin: 10px 0;border: none;width: 100%;
+  border-radius: 3px;cursor: pointer;font-size: 17px;}'>
 	<div class="row justify-content-md-center">
-	<div class="col-25">
+	<div class="col-50">
       <div class="container">
-        <h4>Заказ <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i> <b>4</b></span></h4>
+        <h4>Заказ <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i> <b>{{ totail_items }}</b></span></h4>
         {% for item in cart %}
         <p><a href="#">{{ item.product.name }}</a>x {{ item.quantity }}<span class="price">{{ item.total_price }}</span></p>
-        <hr>
+        <br>
         {% endfor %}
+	      <hr>
         <p>Общая стоимость: <span class="price" style="color:black"><b>{{ cart.get_total_price }}</b></span></p>
       </div>
   </div>
@@ -31,7 +33,6 @@
             <input type="text" id="city" name="city" placeholder="Минск">
 
             <div class="row">
-              
               <div class="col-50">
                 <label for="zip">Индекс</label>
                 <input type="text" id="zip" name="zip" placeholder="220000">
