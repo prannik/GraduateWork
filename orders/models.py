@@ -1,7 +1,6 @@
 from django.db import models
 
 from shop.models import Product
-# Create your models here.
 
 
 class Order (models.Model):
@@ -24,7 +23,6 @@ class Order (models.Model):
         return 'Заказ {}'.format(self.id)
 
     def get_total_cost(self):
-        # общая сумма заказа
         return sum(item.get_cost() for item in self.items.all())
 
 
