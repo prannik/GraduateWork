@@ -14,17 +14,18 @@
         <p>Общая стоимость: <span class="price" style="color:black"><b>{{ cart.get_total_price }}</b></span></p>
       </div>
   </div>
+		<br>
   <div class="col-75">
     <div class="container">
       <form action="." method="post" enctype="multipart/form-data" >
       	{% csrf_token %}
         <div class="row">
           <div class="col-50">
-            <h3>Форма Заказа</h3>
+            <h3>Форма Заказа</h3><br>
             <label for="first_name"><i class="fa fa-user"></i> Имя</label>
-            <input type="text" id="first_name" name="firstname" placeholder="Иванов Иван">
+            <input type="text" id="first_name" name="firstname" placeholder="Иван">
 	    <label for="last_name"><i class="fa fa-user"></i> Фамилия</label>
-            <input type="text" id="last_name" name="last_name" placeholder="Иванов Иван">
+            <input type="text" id="last_name" name="last_name" placeholder="Иванов">
             <label for="email"><i class="fa fa-envelope"></i> Email</label>
             <input type="text" id="email" name="email" placeholder="ivan@example.com">
             <label for="address"><i class="fa fa-address-card-o"></i> Адрес</label>
