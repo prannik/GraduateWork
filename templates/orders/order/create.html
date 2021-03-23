@@ -3,8 +3,9 @@
 {% block content %}
 <div class="container-fluid" >
 	<div class="row justify-content-md-center">
-	<div class="col-50">
-      <div class="container">
+
+  <div class="col-50">
+	  <div class="container">
         <h4>Заказ <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i> </span></h4>
         {% for item in cart %}
         <p><a href="#">{{ item.product.name }}</a>  x  {{ item.quantity }}<span class="price">{{ item.total_price }}</span></p>
@@ -13,9 +14,6 @@
 	      <hr>
         <p>Общая стоимость: <span class="price" style="color:black"><b>{{ cart.get_total_price }}</b></span></p>
       </div>
-  </div>
-		<br>
-  <div class="col-50">
     <div class="container">
       <form action="." method="post" enctype="multipart/form-data" >
       	{% csrf_token %}
