@@ -2,7 +2,7 @@ import os
 from decimal import Decimal
 from django.db import models
 from django.urls import reverse
-# Create your models here.
+
 
 class Category(models.Model):
     name = models.CharField(max_length=150, db_index=True)
@@ -23,7 +23,6 @@ class Category(models.Model):
     
 
 def get_upload_path(instance, filename):
-    #  задаем название файла названием slug`а продукта
     filename = instance.slug + '.' + filename.split('.')[1]  
     return os.path.join('static/images/', filename)
 
