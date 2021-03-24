@@ -1,2 +1,7 @@
 myvenv
 .idea
+accounts/__pycache__
+blog/__pycache__
+orders/__pycache__
+shop/__pycache__
+cart/__pycache__
