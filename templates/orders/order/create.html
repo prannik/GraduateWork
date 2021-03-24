@@ -4,47 +4,48 @@
 <div class="container-fluid" >
 	<div class="row justify-content-md-center">
 		<div class="col-25">
-			</div>
+            <div class="container">
+                <h4>Заказ <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i> </span></h4>
+                {% for item in cart %}
+                <p><a href="#">{{ item.product.name }}</a>  x  {{ item.quantity }}<span class="price">{{ item.total_price }}</span></p>
+                <br>
+                {% endfor %}
+                  <hr>
+                <p>Общая стоимость: <span class="price" style="color:black"><b>{{ cart.get_total_price }}</b></span></p>
+            </div>
+        </div>
 
-  <div class="col-50">
-	  <div class="container">
-        <h4>Заказ <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i> </span></h4>
-        {% for item in cart %}
-        <p><a href="#">{{ item.product.name }}</a>  x  {{ item.quantity }}<span class="price">{{ item.total_price }}</span></p>
-        <br>
-        {% endfor %}
-	      <hr>
-        <p>Общая стоимость: <span class="price" style="color:black"><b>{{ cart.get_total_price }}</b></span></p>
-      </div>
-    <div class="container">
-      <form action="." method="post" enctype="multipart/form-data" >
-      	{% csrf_token %}
-        <div class="row">
-          <div class="col-50">
-            <br><h3>Форма Заказа</h3><br>
-            <label for="first_name"><i class="fa fa-user"></i> Имя</label>
-            <input type="text" id="first_name" name="firstname" placeholder="Иван">
-	    <label for="last_name"><i class="fa fa-user"></i> Фамилия</label>
-            <input type="text" id="last_name" name="last_name" placeholder="Иванов">
-            <label for="email"><i class="fa fa-envelope"></i> Email</label>
-            <input type="text" id="email" name="email" placeholder="ivan@example.com">
-            <label for="address"><i class="fa fa-address-card-o"></i> Адрес</label>
-            <input type="text" id="address" name="address" placeholder="Проспект Победителей 13">
-            <label for="city"><i class="fa fa-institution"></i> Город</label>
-            <input type="text" id="city" name="city" placeholder="Минск">
-            <label for="postal_code">Индекс</label>
-            <input type="text" id="postal_code" name="postal_code" placeholder="220000">
-	   </div>
-        </div>          
-	<input type="submit" class="btn btn-primary" value="Подтвердить заказ">
-      </form>
-	    
-      </div>
-    
-  </div>
+        <div class="col-50">
+
+            <div class="container">
+                <form action="." method="post" enctype="multipart/form-data" >
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-50">
+                            <br><h3>Форма Заказа</h3><br>
+                            <label for="first_name"><i class="fa fa-user"></i> Имя</label>
+                            <input type="text" id="first_name" name="firstname" placeholder="Иван">
+                            <label for="last_name"><i class="fa fa-user"></i> Фамилия</label>
+                            <input type="text" id="last_name" name="last_name" placeholder="Иванов">
+                            <label for="email"><i class="fa fa-envelope"></i> Email</label>
+                            <input type="text" id="email" name="email" placeholder="ivan@example.com">
+                            <label for="address"><i class="fa fa-address-card-o"></i> Адрес</label>
+                            <input type="text" id="address" name="address" placeholder="Проспект Победителей 13">
+                            <label for="city"><i class="fa fa-institution"></i> Город</label>
+                            <input type="text" id="city" name="city" placeholder="Минск">
+                            <label for="postal_code">Индекс</label>
+                            <input type="text" id="postal_code" name="postal_code" placeholder="220000">
+                        </div>
+                    </div>
+	                <input type="submit" class="btn btn-primary" value="Подтвердить заказ">
+                </form>
+            </div>
+
+        </div>
+
 		<div class="col-25">
-			</div>
+        </div>
   
+    </div>
 </div>
-	 </div>
 {% endblock %}

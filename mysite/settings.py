@@ -6,7 +6,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '(k-cyql8w(!l4%%ro+pqh3bl70!-q@idgn@&aq0^s6iv#a1i8=')
 
-DEBUG = bool( os.environ.get('DJANGO_DEBUG', True))
+DEBUG = bool( os.environ.get('DJANGO_DEBUG', False))
 
 
 ALLOWED_HOSTS = ['127.0.0.1', 'nameless-crag-89185.herokuapp.com']
