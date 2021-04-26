@@ -117,3 +117,6 @@ def review_like_or_dislike(request, slug, review_pk, is_like):
             review.save()
     return redirect('product_detail', slug)
 
+
+
+

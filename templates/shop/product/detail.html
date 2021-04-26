@@ -28,7 +28,7 @@
 			<h1>{{ product.name }}</h1>
 			<p>
 
-				<img src="{{product.image.url }}" alt="изображение продукта"
+				<img src="{{ product.image.url }}" alt="изображение продукта"
 					style="height: 320px; width: auto; float:left; margin: 7px 7px 7px 7px;">
                 {% if product.rating > 0 %}
 					<h4>Средняя оценка: {{ product.rating }}</h4><br>
