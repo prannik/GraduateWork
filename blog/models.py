@@ -5,7 +5,7 @@ from django import forms
 
 def get_upload_path(instance, filename):
     filename = instance.slug + '.' + filename.split('.')[1]
-    return os.path.join('images/', filename)
+    return os.path.join('static/images/', filename)
 
 class Post(models.Model):
     author = models.ForeignKey('auth.User', on_delete=models.CASCADE, blank=True, null=True)
