@@ -1,7 +1,7 @@
 from pathlib import Path
 import os
 import dj_database_url
-from keys import django_secret_key, aws_secret_access_key, aws_access_key_id, google_recaptcha_secret_key, google_recaptcha_site_key
+from sec_key import django_secret_key, aws_secret_access_key, aws_access_key_id, google_recaptcha_secret_key, google_recaptcha_site_key
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
