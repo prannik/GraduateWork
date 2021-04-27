@@ -1,13 +1,14 @@
 from pathlib import Path
 import os
 import dj_database_url
+from keys import django_secret_key, aws_secret_access_key, aws_access_key_id, google_recaptcha_secret_key, google_recaptcha_site_key
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '(k-cyql8w(!l4%%ro+pqh3bl70!-q@idgn@&aq0^s6iv#a1i8=')
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', django_secret_key)
 
-DEBUG = bool( os.environ.get('DJANGO_DEBUG', True))
+DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 
 
 ALLOWED_HOSTS = ['127.0.0.1', 'nameless-crag-89185.herokuapp.com']
@@ -96,7 +97,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-
 LANGUAGE_CODE = 'ru-ru'
 
 TIME_ZONE = 'Europe/Moscow'
@@ -108,9 +108,8 @@ USE_L10N = True
 USE_TZ = True
 
 
-
-AWS_ACCESS_KEY_ID = 'AKIA56V4ARNB2BXARW4R'
-AWS_SECRET_ACCESS_KEY = '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'
+AWS_ACCESS_KEY_ID = aws_access_key_id
+AWS_SECRET_ACCESS_KEY = aws_secret_access_key
 AWS_STORAGE_BUCKET_NAME = 'pran-grad'
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 AWS_S3_OBJECT_PARAMETERS = {
@@ -134,6 +133,5 @@ DATABASES['default'].update(db_from_env)
 
 CART_SESSION_ID = 'cart'
 
-GOOGLE_RECAPTCHA_SITE_KEY = '6Lfbm2YaAAAAAGzzUyF-aVYT5TtUQZQV-bo3IpW7'
-GOOGLE_RECAPTCHA_SECRET_KEY = '6Lfbm2YaAAAAAJsy5_kYjOzT247W30QP3i7HTe1b'
-
+GOOGLE_RECAPTCHA_SITE_KEY = google_recaptcha_site_key
+GOOGLE_RECAPTCHA_SECRET_KEY = google_recaptcha_secret_key

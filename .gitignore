@@ -10,3 +10,4 @@ blog/migrations/__pycache__
 orders/migrations/__pycache__
 shop/migrations/__pycache__
 cart/migrations/__pycache__
+mysite/keys.py

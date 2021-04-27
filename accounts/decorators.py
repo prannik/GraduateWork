@@ -9,7 +9,7 @@ def check_recaptcha(function):
         if request.method == 'POST':
             recaptcha_response = request.POST.get('g-recaptcha-response')
             data = {
-                'secret': settings.GOOGLE_RECAPTCHA_SECRET_KEY,
+                'secret': keys.GOOGLE_RECAPTCHA_SECRET_KEY,
                 'response': recaptcha_response
             }
             r = requests.post('https://www.google.com/recaptcha/api/siteverify', data=data)
