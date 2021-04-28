@@ -1,13 +1,3 @@
 myvenv
 .idea
-accounts/__pycache__
-blog/__pycache__
-orders/__pycache__
-shop/__pycache__
-cart/__pycache__
-accounts/migrations/__pycache__
-blog/migrations/__pycache__
-orders/migrations/__pycache__
-shop/migrations/__pycache__
-cart/migrations/__pycache__
-mysite/sec_key.py
+**/__pycache__
