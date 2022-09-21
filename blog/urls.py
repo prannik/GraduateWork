@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import post_list, post_detail, post_new, post_edit, post_delete, post_comment, \
-    comment_delete, comment_edit, tag_post, post_like_or_dislike,  draft_list, \
+    comment_delete, comment_edit, tag_post, post_like_or_dislike, draft_list, \
     published_draft, tag_delete, cat_post_list, comment_like_or_dislike
 
 urlpatterns = [

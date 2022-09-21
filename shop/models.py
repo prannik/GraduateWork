@@ -14,24 +14,23 @@ class Category(models.Model):
         ordering = ('name',)
         verbose_name = 'категория'
         verbose_name_plural = 'категории'
-    
+
     def __str__(self):
         return self.name
 
     def get_absolute_url(self):
         return reverse('product_list_by_category', args=[self.slug])
-    
+
 
 def get_upload_path(instance, filename):
-    filename = instance.slug + '.' + filename.split('.')[1]  
+    filename = instance.slug + '.' + filename.split('.')[1]
     return os.path.join('static/images/', filename)
 
 
 class Product(models.Model):
     category = models.ForeignKey(
-        Category, related_name='products', 
-        on_delete=models.CASCADE
-        )
+        Category, related_name='products',
+        on_delete=models.CASCADE)
     name = models.CharField(max_length=100, db_index=True)
     slug = models.SlugField(max_length=100, db_index=True)
     description = models.TextField(blank=True)
@@ -48,12 +47,13 @@ class Product(models.Model):
         index_together = (('slug',),)
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
-    
+
     def __str__(self):
         return f'{self.name}'
-    
+
     def get_absolute_url(self):
         return reverse('product_detail', args=[self.slug])
+
 
 class ProductReview(models.Model):
     MARK_CHOICES = (

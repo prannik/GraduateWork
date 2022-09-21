@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from .forms import UserRegistrationForm, LoginForm
 
+
 def registration(request):
     if request.method == 'POST':
         user_form = UserRegistrationForm(request.POST)
@@ -15,6 +16,7 @@ def registration(request):
     else:
         user_form = UserRegistrationForm()
     return render(request, 'registration/registration.html', {'user_form': user_form})
+
 
 def user_login(request):
     if request.method == 'POST':
@@ -33,4 +35,3 @@ def user_login(request):
     else:
         form = LoginForm()
     return render(request, 'registration/login.html', {'form': form})
-

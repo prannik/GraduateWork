@@ -12,9 +12,10 @@ def post_list(request):
                                                    'drafts_counter': drafts_counter,
                                                    'categories': categories})
 
+
 def cat_post_list(request, slug):
     category = get_object_or_404(Category, slug=slug)
-    posts = Post.objects.filter(category=category, draft=False,  date__lte=timezone.now()).order_by('date')
+    posts = Post.objects.filter(category=category, draft=False, date__lte=timezone.now()).order_by('date')
     categories = Category.objects.all()
     drafts_counter = len(Post.objects.filter(draft=True))
     return render(request, 'blog/post_list.html', {'posts': posts,
@@ -22,13 +23,15 @@ def cat_post_list(request, slug):
                                                    'drafts_counter': drafts_counter,
                                                    'category': category})
 
+
 def draft_list(request):
     drafts = Post.objects.filter(draft=True, author=request.user, date__lte=timezone.now()).order_by('date')
     categories = Category.objects.all()
     drafts_counter = 0
-    return render(request, 'blog/post_list.html', {'posts': drafts,
-                                                    'drafts_counter': drafts_counter,
-                                                   'categories': categories})
+    return render(request, 'blog/post_list.html', {
+        'posts': drafts,
+        'drafts_counter': drafts_counter,
+        'categories': categories})
 
 
 def published_draft(slug):
@@ -37,6 +40,7 @@ def published_draft(slug):
     post.date = timezone.now()
     post.save()
     return redirect('post_list')
+
 
 def post_detail(request, slug):
     post = get_object_or_404(Post, slug=slug)
@@ -65,6 +69,7 @@ def post_detail(request, slug):
                                                      'form': form,
                                                      'comments.counter': comments.counter})
 
+
 def post_new(request):
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)
@@ -77,6 +82,7 @@ def post_new(request):
     else:
         form = PostForm()
         return render(request, 'blog/edit.html', {'form': form})
+
 
 def post_edit(request, slug):
     post = get_object_or_404(Post, slug=slug)
@@ -92,10 +98,12 @@ def post_edit(request, slug):
         form = PostForm(instance=post)
         return render(request, 'blog/edit.html', {'form': form})
 
+
 def post_delete(request, slug):
     post = get_object_or_404(Post, slug=slug)
     post.delete()
     return redirect('post_list')
+
 
 def post_comment(request, slug):
     post = get_object_or_404(Post, slug=slug)
@@ -111,6 +119,7 @@ def post_comment(request, slug):
         comment_form = CommentForm()
         return render(request, 'blog/edit.html', {'form': comment_form})
 
+
 def comment_delete(request, slug, comment_pk):
     post = get_object_or_404(Post, slug=slug)
     comment = get_object_or_404(Comment, pk=comment_pk)
@@ -118,8 +127,8 @@ def comment_delete(request, slug, comment_pk):
     post.save()
     return redirect('post_detail', slug=slug)
 
+
 def comment_edit(request, slug, comment_pk):
-    post = get_object_or_404(Post, slug=slug)
     comment = get_object_or_404(Comment, pk=comment_pk)
     if request.method == 'POST':
         form = CommentForm(request.POST, instance=comment)
@@ -132,10 +141,12 @@ def comment_edit(request, slug, comment_pk):
         form = CommentForm(instance=comment)
         return render(request, 'blog/edit.html', {'form': form})
 
+
 def tag_post(request, tag_pk):
     tag = get_object_or_404(Tag, pk=tag_pk)
     posts = tag.POSTS.all()
     return render(request, 'blog/post_list.html', {'posts': posts})
+
 
 def tag_delete(request, slug, tag_pk):
     post = get_object_or_404(Post, slug=slug)
@@ -187,7 +198,6 @@ def post_like_or_dislike(request, slug, is_like, point):
 
 
 def comment_like_or_dislike(request, slug, comment_pk, is_like):
-    post = get_object_or_404(Post, slug=slug)
     comment = get_object_or_404(Comment, pk=comment_pk)
 
     old_like = CommentLike.objects.filter(user=request.user, for_com=comment)

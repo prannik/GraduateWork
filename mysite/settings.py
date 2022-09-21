@@ -1,18 +1,18 @@
-from pathlib import Path
 import os
 import dj_database_url
+import environ
 
+env = environ.Env(DEBUG=(bool, False))
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '(k-cyql8w(!l4%%ro+pqh3bl70!-q@idgn@&aq0^s6iv#a1i8=')
+SECRET_KEY = env('SECRET_KEY')
 
-DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
+DEBUG = env('DEBUG')
 
-
-ALLOWED_HOSTS = ['127.0.0.1', 'nameless-crag-89185.herokuapp.com']
-
+ALLOWED_HOSTS = env('ALLOWED_HOSTS')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -72,11 +72,11 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'graduateworkdb',
-        'USER': 'maksim',
-        'PASSWORD': 'qwerty111',
+        'NAME': env('DATABASE_NAME'),
+        'USER': env('DATABASE_NAME'),
+        'PASSWORD': env('DATABASE_NAME'),
         'HOST': 'localhost',
-        'PORT': '5432',
+        'PORT': env('DATABASE_NAME'),
     }
 }
 
@@ -108,9 +108,9 @@ USE_L10N = True
 USE_TZ = True
 
 
-AWS_ACCESS_KEY_ID = 'AKIA56V4ARNBVLZUSHAS'
-AWS_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'pran-grad'
+AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = env('AWS_ACCESS_KEY_ID')
+AWS_STORAGE_BUCKET_NAME = env('AWS_ACCESS_KEY_ID')
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': 'max-age=86400',
@@ -121,7 +121,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static/'),
 ]
 STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATICFILES_STORAGE = env('STATICFILES_STORAGE')
 
 
 db_from_env = dj_database_url.config(conn_max_age=500)
@@ -129,5 +129,5 @@ DATABASES['default'].update(db_from_env)
 
 CART_SESSION_ID = 'cart'
 
-GOOGLE_RECAPTCHA_SITE_KEY = '6Lfbm2YaAAAAAGzzUyF-aVYT5TtUQZQV-bo3IpW7'
-GOOGLE_RECAPTCHA_SECRET_KEY = '6Lfbm2YaAAAAAJsy5_kYjOzT247W30QP3i7HTe1b'
+GOOGLE_RECAPTCHA_SITE_KEY = env('GOOGLE_RECAPTCHA_SITE_KEY')
+GOOGLE_RECAPTCHA_SECRET_KEY = env('GOOGLE_RECAPTCHA_SECRET_KEY')

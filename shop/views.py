@@ -59,6 +59,7 @@ def review(request, slug):
         review_form = ProductReviewForm()
         return render(request, 'blog/edit.html', {'form': review_form})
 
+
 def review_delete(request, slug, review_pk):
     product = get_object_or_404(Product, slug=slug)
     review = get_object_or_404(ProductReview, pk=review_pk)
@@ -66,8 +67,8 @@ def review_delete(request, slug, review_pk):
     product.save()
     return redirect('product_detail', slug)
 
+
 def review_edit(request, slug, review_pk):
-    product = get_object_or_404(Product, slug=slug)
     review = get_object_or_404(ProductReview, pk=review_pk)
     if request.method == 'POST':
         form = ProductReviewForm(request.POST, instance=review)
@@ -80,8 +81,8 @@ def review_edit(request, slug, review_pk):
         form = ProductReviewForm(instance=review)
         return render(request, 'blog/edit.html', {'form': form})
 
+
 def review_like_or_dislike(request, slug, review_pk, is_like):
-    product = get_object_or_404(Product, slug=slug)
     review = get_object_or_404(ProductReview, pk=review_pk)
     old_like = ProductReviewLike.objects.filter(user=request.user, for_review=review)
     if old_like:
@@ -116,7 +117,3 @@ def review_like_or_dislike(request, slug, review_pk, is_like):
             review.dislikes += 1
             review.save()
     return redirect('product_detail', slug)
-
-
-
-

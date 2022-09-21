@@ -1,11 +1,12 @@
 import os
 from django.db import models
 from django.urls import reverse
-from django import forms
+
 
 def get_upload_path(instance, filename):
     filename = instance.slug + '.' + filename.split('.')[1]
     return os.path.join('static/images/', filename)
+
 
 class Post(models.Model):
     author = models.ForeignKey('auth.User', on_delete=models.CASCADE, blank=True, null=True)
@@ -49,6 +50,7 @@ class Comment(models.Model):
     def __str__(self):
         return f'{self.author} - {self.post}'
 
+
 class Tag(models.Model):
     text = models.CharField(max_length=64, verbose_name='Hashtag')
 
@@ -68,6 +70,7 @@ class PostLike(models.Model):
     like_or_dislike = models.CharField(max_length=7,
                                        choices=LIKE_OR_DISLAKE_CHOICES,
                                        default=None)
+
 
 class CommentLike(models.Model):
     LIKE_OR_DISLAKE_CHOICES = (
